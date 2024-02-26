@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://7lc74bbki0rs"]
+
+[ext_resource type="PackedScene" uid="uid://b77dmtvqewd6y" path="res://scene/world/baseplate.tscn" id="1_78sqd"]
+[ext_resource type="PackedScene" uid="uid://cvmpevbb3gm3" path="res://scene/player/player.tscn" id="2_ibtqs"]
+
+[node name="world" type="Node3D"]
+
+[node name="Baseplate" parent="." instance=ExtResource("1_78sqd")]
+transform = Transform3D(10, 0, 0, 0, 0.2, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_ibtqs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6265, 2.03001, -2.39316)
