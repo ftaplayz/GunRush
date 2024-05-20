@@ -1,9 +1,10 @@
 using Godot;
-using System;
+
+namespace GunRush.Classes;
 
 public partial class Humanoid : CharacterBody3D
 {
-	[Export] private float MaxHealth { get; set; } = 100;
+	[Export] public float MaxHealth { get; set; } = 100;
 	private float health = 100;
 	[Export] public float Health {
 		get

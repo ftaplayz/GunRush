@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvmpevbb3gm3"]
+[gd_scene load_steps=6 format=3 uid="uid://cvmpevbb3gm3"]
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
+[ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/player/weapon.tscn" id="2_ds845"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -20,6 +21,11 @@ mesh = SubResource("CapsuleMesh_jdee6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
+
+[node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
+transform = Transform3D(-0.01, 0, -8.74228e-10, 0, 0.01, 0, 8.74228e-10, 0, -0.01, 0.347681, -0.244349, -0.292752)
+
+[node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 
 [node name="StandingCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_ybbpu")

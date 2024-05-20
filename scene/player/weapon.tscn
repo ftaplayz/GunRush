@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://2m640fvers00"]
+
+[ext_resource type="Script" path="res://Classes/WeaponController.cs" id="1_7puwj"]
+
+[node name="Weapon" type="Node3D"]
+script = ExtResource("1_7puwj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]

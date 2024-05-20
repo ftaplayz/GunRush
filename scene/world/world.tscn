@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://7lc74bbki0rs"]
+[gd_scene load_steps=6 format=3 uid="uid://7lc74bbki0rs"]
 
 [ext_resource type="PackedScene" uid="uid://b77dmtvqewd6y" path="res://scene/world/baseplate.tscn" id="1_78sqd"]
 [ext_resource type="PackedScene" uid="uid://cvmpevbb3gm3" path="res://scene/player/player.tscn" id="2_ibtqs"]
+[ext_resource type="PackedScene" uid="uid://o5cw4uouawdr" path="res://weapons/m4/low-poly_assault_rifle.glb" id="3_5ax1u"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ua8wk"]
 
@@ -15,7 +16,6 @@ transform = Transform3D(100, 0, 0, 0, 1.999, 0, 0, 0, 100, 0, 0, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_ibtqs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.611069, 2.00263, -2.40343)
-Speed = 100.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, -1.01863e-10, -0.00157079, 0.00156837, -0.0555253, 0.998456, -8.72189e-05, -0.998457, -0.0555252, 11.9494, -65.445, -2.91128)
@@ -30,3 +30,6 @@ mesh = SubResource("BoxMesh_ua8wk")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0608826, 0.202728, 0.0950403)
 shape = SubResource("BoxShape3D_kx8s1")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("3_5ax1u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.66445, 0.9995, -5.34941)

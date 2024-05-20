@@ -1,6 +1,6 @@
-using System;
-using System.Diagnostics;
 using Godot;
+
+namespace GunRush.Classes;
 
 public partial class Player : Humanoid
 {
@@ -72,23 +72,23 @@ public partial class Player : Humanoid
 
 	public override void _PhysicsProcess(double delta)
 	{		
-		GD.Print(this.State);
+		//GD.Print(this.State);
 		var velocity = Velocity;
 		if (this._jumping && this._lastPosition.Y > this.Position.Y)
 		{
 			this._jumping = false;
-			GD.Print("Reached jump peak, now falling");
+			//GD.Print("Reached jump peak, now falling");
 		}
 		if (!this.IsOnFloor())
 		{
 			if (this._jumping)
 			{
 				velocity.Y -= this.Gravity * (float)delta;
-				GD.Print("Jump slowing down");
+				//GD.Print("Jump slowing down");
 			}
 			else
 			{
-				GD.Print("Falling");
+				//GD.Print("Falling");
 				this._fallTime += (float)delta;
 				velocity.Y = -(this.Gravity * Mathf.Pow(this._fallTime, 2));
 			}
