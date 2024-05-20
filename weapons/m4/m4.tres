@@ -10,4 +10,5 @@ Position = Vector3(0.347681, -0.244349, -0.292752)
 Rotation = Vector3(0, 180, 0)
 Mesh = ExtResource("1_xyyo8")
 Size = Vector3(0.01, 0.01, 0.01)
-Damage = 0.0
+Damage = 15.0
+FireRate = 60

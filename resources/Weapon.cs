@@ -14,4 +14,5 @@ public partial class Weapon : Resource
 	[Export] public Vector3 Size {get; set; }
 	[ExportCategory("Weapon Stats")]
 	[Export] public float Damage { get; set; }
+	[Export] public int FireRate{get; set;} // bullets per minute
 }

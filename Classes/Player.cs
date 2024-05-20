@@ -12,6 +12,7 @@ public partial class Player : Humanoid
 	public static int StateCrouching = 3;
 	public static int StateFalling = 4;
 	private Node3D _camera;
+	private WeaponController _weapon;
 	private RayCast3D _raycastStand;
 	private CollisionShape3D _standingCollision;
 	private CollisionShape3D _crouchingCollission;
@@ -22,10 +23,12 @@ public partial class Player : Humanoid
 	private float _oldCameraY;
 	private bool _scheduledStand = false;
 	private bool _crouching = false;
+	private bool _firing = false;
 	
 	public override void _Ready()
 	{
 		this._camera = GetNode<Node3D>("CameraRoot");
+		this._weapon = _camera.GetNode<WeaponController>("Weapon");
 		this._raycastStand = GetNode<RayCast3D>("StandingRaycast");
 		this._standingCollision = GetNode<CollisionShape3D>("StandingCollision");
 		this._crouchingCollission = GetNode<CollisionShape3D>("CrouchingCollision");
@@ -48,6 +51,8 @@ public partial class Player : Humanoid
 	{
 		if(Input.IsActionJustPressed("pause"))
 			GetTree().Quit();
+		if(Input.IsActionJustPressed("fire"))
+			this._firing = true;
 		if (Input.IsActionJustPressed("crouch"))
 		{
 			this._Crouch(true, this._crouchingCollission, this._standingCollision);
@@ -99,6 +104,11 @@ public partial class Player : Humanoid
 			velocity.Y = this.JumpPower;
 			this._jumping = true;
 			this._fallTime = 0;
+		}
+
+		if(this._firing){
+			this._weapon.Fire();
+			this._firing = Input.IsActionPressed("fire");
 		}
 			
 		var inputDirection = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
