@@ -23,7 +23,6 @@ public partial class Player : Humanoid
 	private float _oldCameraY;
 	private bool _scheduledStand = false;
 	private bool _crouching = false;
-	private bool _firing = false;
 	
 	public override void _Ready()
 	{
@@ -52,7 +51,9 @@ public partial class Player : Humanoid
 		if(Input.IsActionJustPressed("pause"))
 			GetTree().Quit();
 		if(Input.IsActionJustPressed("fire"))
-			this._firing = true;
+			this._weapon.Fire(true);
+		if(Input.IsActionJustReleased("fire"))
+			this._weapon.Fire(false);
 		if (Input.IsActionJustPressed("crouch"))
 		{
 			this._Crouch(true, this._crouchingCollission, this._standingCollision);
@@ -102,11 +103,6 @@ public partial class Player : Humanoid
 		if (Input.IsActionJustPressed("jump") && this.IsOnFloor())
 		{
 			this._Jump(ref velocity);
-		}
-
-		if(this._firing){
-			this._weapon.Fire();
-			this._firing = Input.IsActionPressed("fire");
 		}
 			
 		var inputDirection = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");

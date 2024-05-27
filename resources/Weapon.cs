@@ -15,4 +15,9 @@ public partial class Weapon : Resource
 	[ExportCategory("Weapon Stats")]
 	[Export] public float Damage { get; set; }
 	[Export] public int FireRate{get; set;} // bullets per minute
+	[Export] public bool Automatic {get; set;}
+	[Export] public int MagazineSize {get; set;}
+	[Export] public int MaxAmmo {get; set;}
+	//[Export] public float ReloadTime {get; set;}
+
 }

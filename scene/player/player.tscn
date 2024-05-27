@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
 [ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/player/weapon.tscn" id="2_ds845"]
-[ext_resource type="Resource" uid="uid://bskr8s6yg22mt" path="res://weapons/ak47_v2/ak.tres" id="3_pebry"]
+[ext_resource type="Resource" uid="uid://c8wgmifxqlaq4" path="res://weapons/glock/glock.tres" id="3_qd0d3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -24,8 +24,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
-transform = Transform3D(-1.31134e-10, 0, 0.003, 0, 0.003, 0, -0.003, 0, -1.31134e-10, 0.39506, -0.356942, -0.197116)
-Weapon = ExtResource("3_pebry")
+transform = Transform3D(-3, 2.62268e-07, 1.14641e-14, 0, -1.31134e-07, 3, 2.62268e-07, 3, 1.31134e-07, 0.465311, -0.300791, -0.588839)
+Weapon = ExtResource("3_qd0d3")
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)

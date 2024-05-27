@@ -9,14 +9,14 @@ script = ExtResource("2_g8hab")
 Mesh = ExtResource("1_xyyo8")
 Position = Vector3(0, 0, 0)
 Rotation = Vector3(0, 0, 0)
-Scale = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
 
 [resource]
 script = ExtResource("2_6aasv")
 Name = ""
-Position = Vector3(0.347681, -0.244349, -0.292752)
+Position = Vector3(0.44409, -0.232845, -0.264688)
 Rotation = Vector3(0, 180, 0)
 MeshList = [SubResource("Resource_t4uqj")]
-Size = Vector3(0.01, 0.01, 0.01)
+Size = Vector3(0.015, 0.015, 0.015)
 Damage = 15.0
 FireRate = 60

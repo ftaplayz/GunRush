@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using Godot;
 namespace GunRush.Classes;
 [Tool]
 public partial class WeaponController : Node3D
 {
 	private Weapon _weapon;
-	[Export] public int FireRate {get; set;}
 	[Export] public Weapon Weapon
 	{
 		get
@@ -20,8 +21,12 @@ public partial class WeaponController : Node3D
 		}
 	}
 
-	private long _lastShootTime;
-	private long _msBetweenShot;
+	[Export] public int Magazine {get; set;}
+
+	[Export] public int Ammo {get; set;}
+	[Export] public int FiredBullets {get; set;}
+	private int _msBetweenShot;
+	private bool _firing = false;
 	private Node3D _meshFolder;
 	private RayCast3D _ray;
 	public override void _Ready()
@@ -56,25 +61,30 @@ public partial class WeaponController : Node3D
 			this._meshFolder.AddChild(newMesh);
 		}
 		this.AddChild(this._meshFolder);
-		this.FireRate = this.Weapon.FireRate;
 		this._msBetweenShot = 1000/(this.Weapon.FireRate/60);
-		
 	}
 
-	public bool Fire()
-	{
-		var currentMs = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-		if(this._lastShootTime+this._msBetweenShot <= currentMs){
-			this._ray.ForceRaycastUpdate();
-			if(this._ray.IsColliding()){
-				var colliding = this._ray.GetCollider();
-				this._ray.GetCollisionPoint();
-				GD.Print(colliding);
-				return true;
-			}
-			this._lastShootTime = currentMs;
+	public int OnReload(){
+		var bulletsToReload = Mathf.Clamp(this.Ammo-this.FiredBullets, 0, this.Weapon.MagazineSize);
+		this.Ammo -= bulletsToReload;
+		this.Magazine = bulletsToReload;
+		return bulletsToReload;
+	}
+
+	public async void Fire(bool firing, bool functionEvoked = false)
+	{	
+		if(!functionEvoked)
+			this._firing = firing;
+		if(this.Weapon == null || this.Magazine <= 0 || !this._firing)
+			return;
+		this._ray.ForceRaycastUpdate();
+		if(this._ray.IsColliding()){
+			var colliding = this._ray.GetCollider();
+			this._ray.GetCollisionPoint();
+			GD.Print(colliding);
 		}
-		
-		return false;
+		this.Magazine--;
+		await Task.Delay(this._msBetweenShot);
+		Fire(this._firing, true);
 	}
 }

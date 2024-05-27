@@ -42,5 +42,5 @@ Position = Vector3(0.39506, -0.356942, -0.197116)
 Rotation = Vector3(0, 90, 0)
 MeshList = [SubResource("Resource_vq81h"), SubResource("Resource_dutpm"), SubResource("Resource_wtwhk"), SubResource("Resource_gl3di")]
 Size = Vector3(0.003, 0.003, 0.003)
-Damage = 0.0
-FireRate = 0
+Damage = 50.0
+FireRate = 120

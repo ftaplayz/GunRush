@@ -1,0 +1,102 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=25 format=3 uid="uid://c8wgmifxqlaq4"]
+
+[ext_resource type="ArrayMesh" uid="uid://dnqtovkip26n2" path="res://weapons/glock/Sketchfab_Scene_GL_Frame_GL19_Plastic_0.res" id="1_hcx6g"]
+[ext_resource type="ArrayMesh" uid="uid://33y8nq6v1py8" path="res://weapons/glock/Sketchfab_Scene_GL_Barrel_GL19_Metal_0.res" id="1_o2ib4"]
+[ext_resource type="Script" path="res://resources/Weapon.cs" id="1_y74qo"]
+[ext_resource type="Script" path="res://resources/MeshTransform3D.cs" id="2_37jl7"]
+[ext_resource type="ArrayMesh" uid="uid://cqd7dy0dkvi00" path="res://weapons/glock/Sketchfab_Scene_GL_Frame_GL19_Metal_0.res" id="3_ld03w"]
+[ext_resource type="ArrayMesh" uid="uid://bd01l1taijam5" path="res://weapons/glock/Sketchfab_Scene_GL_Magazine_GL19_Metal_0.res" id="3_r83ko"]
+[ext_resource type="ArrayMesh" uid="uid://baffqyk64wcfl" path="res://weapons/glock/Sketchfab_Scene_GL_Follower_GL19_Plastic_0.res" id="4_p6142"]
+[ext_resource type="ArrayMesh" uid="uid://dmwagplibetkq" path="res://weapons/glock/Sketchfab_Scene_GL_MagRelease_GL19_Plastic_0.res" id="5_ovl37"]
+[ext_resource type="ArrayMesh" uid="uid://bklxtfqjtoqj3" path="res://weapons/glock/Sketchfab_Scene_GL_SlideLock_GL19_Plastic_0.res" id="6_iwe1h"]
+[ext_resource type="ArrayMesh" uid="uid://bq0hurmbciggf" path="res://weapons/glock/Sketchfab_Scene_GL_Slide_GL19_Metal_0.res" id="7_ogn71"]
+[ext_resource type="ArrayMesh" uid="uid://bnr0mqyojt5t5" path="res://weapons/glock/Sketchfab_Scene_GL_SlideStop1_GL19_Metal_0.res" id="8_7e203"]
+[ext_resource type="ArrayMesh" uid="uid://d2noyy70fk8ac" path="res://weapons/glock/Sketchfab_Scene_GL_SlideStop2_GL19_Metal_0.res" id="9_nig7w"]
+[ext_resource type="ArrayMesh" uid="uid://dadi6s4ntpq4d" path="res://weapons/glock/Sketchfab_Scene_GL_Trigger_GL19_Plastic_0.res" id="10_b1ljb"]
+
+[sub_resource type="Resource" id="Resource_t7whd"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("1_hcx6g")
+Position = Vector3(0, 0, 0)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_njjic"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("3_ld03w")
+Position = Vector3(0, 0, 0)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_5sy78"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("1_o2ib4")
+Position = Vector3(-0.000465311, -0.0475804, 0.0433147)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_tkab4"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("3_r83ko")
+Position = Vector3(-0.000319373, 0.040226, -0.0213947)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_ec660"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("4_p6142")
+Position = Vector3(8.94815e-06, -0.0273727, 0.0546794)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_780hx"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("5_ovl37")
+Position = Vector3(-0.00503502, 0.0177991, -0.00342582)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_sloip"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("6_iwe1h")
+Position = Vector3(0.00473028, -0.0389478, 0.027441)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_fkdvi"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("7_ogn71")
+Position = Vector3(-0.0011868, 0.00205153, 0.0397973)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_t2tca"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("8_7e203")
+Position = Vector3(0.0152307, 0.0168542, 0.0261259)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_2ajxd"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("9_nig7w")
+Position = Vector3(-0.0159866, 0.0170173, 0.0261731)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_3fr0f"]
+script = ExtResource("2_37jl7")
+Mesh = ExtResource("10_b1ljb")
+Position = Vector3(-0.000310428, -0.00882188, 0.00529751)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[resource]
+script = ExtResource("1_y74qo")
+Name = ""
+Position = Vector3(0.465311, -0.300791, -0.588839)
+Rotation = Vector3(-90, 180, 0)
+MeshList = [SubResource("Resource_t7whd"), SubResource("Resource_njjic"), SubResource("Resource_5sy78"), SubResource("Resource_tkab4"), SubResource("Resource_ec660"), SubResource("Resource_780hx"), SubResource("Resource_sloip"), SubResource("Resource_fkdvi"), SubResource("Resource_t2tca"), SubResource("Resource_2ajxd"), SubResource("Resource_3fr0f")]
+Size = Vector3(3, 3, 3)
+Damage = 0.0
+FireRate = 0
