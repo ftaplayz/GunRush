@@ -10,7 +10,7 @@ public partial class Weapon : Resource
 	[Export] public Vector3 Position { get; set; }
 	[Export] public Vector3 Rotation { get; set; }
 	[ExportCategory("Weapon Model")]
-	[Export] public Mesh Mesh { get; set; }
+	[Export] public MeshTransform3D[] MeshList { get; set; }
 	[Export] public Vector3 Size {get; set; }
 	[ExportCategory("Weapon Stats")]
 	[Export] public float Damage { get; set; }

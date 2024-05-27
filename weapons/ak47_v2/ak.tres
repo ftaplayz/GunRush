@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=11 format=3 uid="uid://bskr8s6yg22mt"]
+
+[ext_resource type="Script" path="res://resources/Weapon.cs" id="1_1qpry"]
+[ext_resource type="ArrayMesh" uid="uid://dubsbxt0wapnr" path="res://weapons/ak47_v2/Sketchfab_Scene_Cube_Ak body metal_0.res" id="1_11fq4"]
+[ext_resource type="Script" path="res://resources/MeshTransform3D.cs" id="2_2odbf"]
+[ext_resource type="ArrayMesh" uid="uid://c3tula43idb30" path="res://weapons/ak47_v2/Sketchfab_Scene_Cube_001_Material_001_0.res" id="3_g6i4j"]
+[ext_resource type="ArrayMesh" uid="uid://bjuaymlvgnxpj" path="res://weapons/ak47_v2/Sketchfab_Scene_Cube_Ak body Wood_0.res" id="3_u16b3"]
+[ext_resource type="ArrayMesh" uid="uid://cmhuagjcijbdo" path="res://weapons/ak47_v2/Sketchfab_Scene_Cube_002_SlideBase_0.res" id="4_sqh8c"]
+
+[sub_resource type="Resource" id="Resource_vq81h"]
+script = ExtResource("2_2odbf")
+Mesh = ExtResource("1_11fq4")
+Position = Vector3(93.2207, 37.4611, -66.6821)
+Rotation = Vector3(-90, 0, 0)
+Scale = Vector3(100, 100, 100)
+
+[sub_resource type="Resource" id="Resource_dutpm"]
+script = ExtResource("2_2odbf")
+Mesh = ExtResource("3_u16b3")
+Position = Vector3(93.2207, 37.4611, -66.6821)
+Rotation = Vector3(-90, 0, 0)
+Scale = Vector3(100, 100, 100)
+
+[sub_resource type="Resource" id="Resource_wtwhk"]
+script = ExtResource("2_2odbf")
+Mesh = ExtResource("3_g6i4j")
+Position = Vector3(93.2207, 37.4611, 1.97085)
+Rotation = Vector3(-90, 0, 0)
+Scale = Vector3(-12.6294, -12.6294, -12.6294)
+
+[sub_resource type="Resource" id="Resource_gl3di"]
+script = ExtResource("2_2odbf")
+Mesh = ExtResource("4_sqh8c")
+Position = Vector3(85.1534, 67.8878, -49.7533)
+Rotation = Vector3(-90, 0, 0)
+Scale = Vector3(1.29876, 1.16196, 1.5303)
+
+[resource]
+script = ExtResource("1_1qpry")
+Name = ""
+Position = Vector3(0.39506, -0.356942, -0.197116)
+Rotation = Vector3(0, 90, 0)
+MeshList = [SubResource("Resource_vq81h"), SubResource("Resource_dutpm"), SubResource("Resource_wtwhk"), SubResource("Resource_gl3di")]
+Size = Vector3(0.003, 0.003, 0.003)
+Damage = 0.0
+FireRate = 0

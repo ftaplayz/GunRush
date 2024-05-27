@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
 [ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/player/weapon.tscn" id="2_ds845"]
-[ext_resource type="Resource" uid="uid://bj3aghrxpian4" path="res://weapons/m4/m4.tres" id="3_gtrkx"]
+[ext_resource type="Resource" uid="uid://bskr8s6yg22mt" path="res://weapons/ak47_v2/ak.tres" id="3_pebry"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -11,7 +11,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ryxyu"]
 height = 1.0
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["entity"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_iu34t")
 
@@ -24,9 +24,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
-transform = Transform3D(-0.01, 0, -8.74228e-10, 0, 0.01, 0, 8.74228e-10, 0, -0.01, 0.347681, -0.244349, -0.292752)
-FireRate = 60
-Weapon = ExtResource("3_gtrkx")
+transform = Transform3D(-1.31134e-10, 0, 0.003, 0, 0.003, 0, -0.003, 0, -1.31134e-10, 0.39506, -0.356942, -0.197116)
+Weapon = ExtResource("3_pebry")
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)

@@ -101,9 +101,7 @@ public partial class Player : Humanoid
 		
 		if (Input.IsActionJustPressed("jump") && this.IsOnFloor())
 		{
-			velocity.Y = this.JumpPower;
-			this._jumping = true;
-			this._fallTime = 0;
+			this._Jump(ref velocity);
 		}
 
 		if(this._firing){
@@ -144,8 +142,15 @@ public partial class Player : Humanoid
 		return Player.StateIdle;
 	}
 
+	private void _Jump(ref Vector3 velocity){
+		//this._weapon.Weapon = GD.Load<Weapon>("res://weapons/m4/m4.tres");
+		velocity.Y = this.JumpPower;
+		this._jumping = true;
+		this._fallTime = 0;
+	}
 	private void _Crouch(bool crouchState, CollisionShape3D shapeEnable, CollisionShape3D shapeDisable)
 	{
+		//this._weapon.Weapon = null;
 		if (this._scheduledStand) return;
 		var camPos = this._camera.Position;
 		this._crouching = crouchState;

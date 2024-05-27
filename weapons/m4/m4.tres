@@ -1,14 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3 uid="uid://bj3aghrxpian4"]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3 uid="uid://bj3aghrxpian4"]
 
 [ext_resource type="ArrayMesh" uid="uid://cy0t5wmt7jejg" path="res://weapons/m4/m4_mesh.tres" id="1_xyyo8"]
 [ext_resource type="Script" path="res://resources/Weapon.cs" id="2_6aasv"]
+[ext_resource type="Script" path="res://resources/MeshTransform3D.cs" id="2_g8hab"]
+
+[sub_resource type="Resource" id="Resource_t4uqj"]
+script = ExtResource("2_g8hab")
+Mesh = ExtResource("1_xyyo8")
+Position = Vector3(0, 0, 0)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(0, 0, 0)
 
 [resource]
 script = ExtResource("2_6aasv")
 Name = ""
 Position = Vector3(0.347681, -0.244349, -0.292752)
 Rotation = Vector3(0, 180, 0)
-Mesh = ExtResource("1_xyyo8")
+MeshList = [SubResource("Resource_t4uqj")]
 Size = Vector3(0.01, 0.01, 0.01)
 Damage = 15.0
 FireRate = 60

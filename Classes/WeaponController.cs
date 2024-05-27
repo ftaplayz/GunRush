@@ -15,14 +15,14 @@ public partial class WeaponController : Node3D
 		set
 		{
 			this._weapon = value;
-			if(Engine.IsEditorHint())
-				this._InitWeapon();
+			//if(Engine.IsEditorHint())
+			this._InitWeapon();
 		}
 	}
 
 	private long _lastShootTime;
 	private long _msBetweenShot;
-	private MeshInstance3D _mesh;
+	private Node3D _meshFolder;
 	private RayCast3D _ray;
 	public override void _Ready()
 	{
@@ -31,7 +31,6 @@ public partial class WeaponController : Node3D
 	}
 
 	private void _InitWeapon(){
-		this._mesh = GetNode<MeshInstance3D>("MeshInstance3D");
 		this._LoadWeapon();
 	}
 
@@ -39,13 +38,24 @@ public partial class WeaponController : Node3D
 	{
 		if (this.Weapon == null)
 		{
-			this._mesh.Mesh = null;
+			if(this._meshFolder != null)
+				this.RemoveChild(this._meshFolder);
+			this.Scale = Vector3.Zero;
 			return;
 		}
+		this._meshFolder = new Node3D();
 		this.Scale = this.Weapon.Size;
 		this.Position = this.Weapon.Position;
 		this.RotationDegrees = this.Weapon.Rotation;
-		this._mesh.Mesh = this.Weapon.Mesh;
+		foreach(MeshTransform3D mesh in Weapon.MeshList){
+			var newMesh = new MeshInstance3D();
+			newMesh.Mesh = mesh.Mesh;
+			newMesh.Position = mesh.Position;
+			newMesh.RotationDegrees = mesh.Rotation;
+			newMesh.Scale = mesh.Scale;
+			this._meshFolder.AddChild(newMesh);
+		}
+		this.AddChild(this._meshFolder);
 		this.FireRate = this.Weapon.FireRate;
 		this._msBetweenShot = 1000/(this.Weapon.FireRate/60);
 		
