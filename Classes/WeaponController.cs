@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 namespace GunRush.Classes;
@@ -27,41 +28,42 @@ public partial class WeaponController : Node3D
 	[Export] public int FiredBullets {get; set;}
 	private int _msBetweenShot;
 	private bool _firing = false;
-	private Node3D _meshFolder;
+	private List<MeshInstance3D> _loadedMeshList = new List<MeshInstance3D>();
 	private RayCast3D _ray;
+	private AnimationPlayer _animationPlayer;
+	private AnimationLibrary _animationLibrary;
+	
 	public override void _Ready()
 	{
 		this._ray = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
+		this._animationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
+		this._animationLibrary = this._animationPlayer.GetAnimationLibrary("weapon");
 		this._InitWeapon();
 	}
 
 	private void _InitWeapon(){
+		this._ClearWeapon();
 		this._LoadWeapon();
 	}
 
 	private void _LoadWeapon()
 	{
-		if (this.Weapon == null)
-		{
-			if(this._meshFolder != null)
-				this.RemoveChild(this._meshFolder);
-			this.Scale = Vector3.Zero;
-			return;
-		}
-		this._meshFolder = new Node3D();
+		if(this.Weapon == null) return;
+		// Weapon Transform
 		this.Scale = this.Weapon.Size;
 		this.Position = this.Weapon.Position;
 		this.RotationDegrees = this.Weapon.Rotation;
-		foreach(MeshTransform3D mesh in Weapon.MeshList){
-			var newMesh = new MeshInstance3D();
-			newMesh.Mesh = mesh.Mesh;
-			newMesh.Position = mesh.Position;
-			newMesh.RotationDegrees = mesh.Rotation;
-			newMesh.Scale = mesh.Scale;
-			this._meshFolder.AddChild(newMesh);
-		}
-		this.AddChild(this._meshFolder);
+
+		// Weapon Properties
+		this.Magazine = this.Weapon.MagazineSize;
+
+		// Weapon Meshes
+		foreach(MeshTransform3D mesh in Weapon.MeshList)
+			this._AddMeshTransform(mesh);
+		
+		// Weapon Privates
 		this._msBetweenShot = 1000/(this.Weapon.FireRate/60);
+		
 	}
 
 	public int OnReload(){
@@ -71,12 +73,41 @@ public partial class WeaponController : Node3D
 		return bulletsToReload;
 	}
 
-	public async void Fire(bool firing, bool functionEvoked = false)
+	private void _ClearWeapon(){
+		if(this._loadedMeshList.Count > 0){
+			foreach(MeshInstance3D mesh in this._loadedMeshList){
+				GD.Print(mesh);
+				mesh.QueueFree();
+			}
+			this._loadedMeshList.Clear();
+		}
+		if(this._animationPlayer != null){
+			if(this._animationLibrary.HasAnimation("Shoot"))
+				this._animationLibrary.RemoveAnimation("Shoot");
+			if(this._animationLibrary.HasAnimation("Reload"))
+				this._animationLibrary.RemoveAnimation("Reload");
+		}
+	}
+
+	private void _AddMeshTransform(MeshTransform3D mesh){
+		var newMesh = new MeshInstance3D();
+		newMesh.Mesh = mesh.Mesh;
+		newMesh.Position = mesh.Position;
+		newMesh.RotationDegrees = mesh.Rotation;
+		newMesh.Scale = mesh.Scale;
+		this.AddChild(newMesh);
+		this._loadedMeshList.Add(newMesh);
+	}
+	public void Fire(bool firing)
 	{	
-		if(!functionEvoked)
-			this._firing = firing;
+		this._firing = firing;
+		this._Fire();
+	}
+
+	private async void _Fire(){
 		if(this.Weapon == null || this.Magazine <= 0 || !this._firing)
 			return;
+		this._animationPlayer.Play("Shoot");
 		this._ray.ForceRaycastUpdate();
 		if(this._ray.IsColliding()){
 			var colliding = this._ray.GetCollider();
@@ -85,6 +116,6 @@ public partial class WeaponController : Node3D
 		}
 		this.Magazine--;
 		await Task.Delay(this._msBetweenShot);
-		Fire(this._firing, true);
+		this._Fire();
 	}
 }

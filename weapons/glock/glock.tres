@@ -100,3 +100,6 @@ MeshList = [SubResource("Resource_t7whd"), SubResource("Resource_njjic"), SubRes
 Size = Vector3(3, 3, 3)
 Damage = 0.0
 FireRate = 0
+Automatic = false
+MagazineSize = 0
+MaxAmmo = 0

@@ -12,6 +12,9 @@ public partial class Weapon : Resource
 	[ExportCategory("Weapon Model")]
 	[Export] public MeshTransform3D[] MeshList { get; set; }
 	[Export] public Vector3 Size {get; set; }
+	[ExportCategory("Weapon Animation")]
+	[Export] public Animation ShootAnimation {get; set;}
+	[Export] public Animation ReloadAnimation {get; set;}
 	[ExportCategory("Weapon Stats")]
 	[Export] public float Damage { get; set; }
 	[Export] public int FireRate{get; set;} // bullets per minute
