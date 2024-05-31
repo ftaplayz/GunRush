@@ -18,27 +18,38 @@ public partial class WeaponController : Node3D
 		{
 			this._weapon = value;
 			//if(Engine.IsEditorHint())
+			this._GetEssentialNodes();
 			this._InitWeapon();
 		}
 	}
 
 	[Export] public int Magazine {get; set;}
-
 	[Export] public int Ammo {get; set;}
 	[Export] public int FiredBullets {get; set;}
-	private int _msBetweenShot;
+	private bool _fireCooldown = false;
+	private float _msBetweenShot;
 	private bool _firing = false;
+	private bool _ready = false;
+	private Node3D _weaponNode;
 	private List<MeshInstance3D> _loadedMeshList = new List<MeshInstance3D>();
 	private RayCast3D _ray;
 	private AnimationPlayer _animationPlayer;
 	private AnimationLibrary _animationLibrary;
+	private string _animationLibraryName = "weapon";
 	
 	public override void _Ready()
 	{
+		this._ready = true;
 		this._ray = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
-		this._animationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
-		this._animationLibrary = this._animationPlayer.GetAnimationLibrary("weapon");
+		this._GetEssentialNodes();
 		this._InitWeapon();
+		
+	}
+
+	private void _GetEssentialNodes(){
+		this._weaponNode = this.GetNode<Node3D>("InnerWeapon");
+		this._animationPlayer = this._weaponNode.GetNode<AnimationPlayer>("AnimationPlayer");
+		this._animationLibrary = this._animationPlayer.GetAnimationLibrary(this._animationLibraryName);
 	}
 
 	private void _InitWeapon(){
@@ -56,18 +67,30 @@ public partial class WeaponController : Node3D
 
 		// Weapon Properties
 		this.Magazine = this.Weapon.MagazineSize;
+		this.Ammo = this.Weapon.MaxAmmo;
 
 		// Weapon Meshes
 		foreach(MeshTransform3D mesh in Weapon.MeshList)
 			this._AddMeshTransform(mesh);
-		
+
 		// Weapon Privates
-		this._msBetweenShot = 1000/(this.Weapon.FireRate/60);
+		this._msBetweenShot = 1000.0f/(this.Weapon.FireRate/60.0f);
+		GD.Print(this._msBetweenShot);
+		
+		// Weapon Animations
+		if(this._ready){
+			GD.Print("Adding Animations");
+			if(this.Weapon.ShootAnimation != null)
+				this._animationLibrary.AddAnimation("Shoot", this.Weapon.ShootAnimation);
+			if(this.Weapon.ReloadAnimation != null)
+				this._animationLibrary.AddAnimation("Reload", this.Weapon.ReloadAnimation);
+		}
 		
 	}
 
 	public int OnReload(){
-		var bulletsToReload = Mathf.Clamp(this.Ammo-this.FiredBullets, 0, this.Weapon.MagazineSize);
+		var bulletsToReload = Mathf.Clamp(this.Ammo-(this.Weapon.MagazineSize-this.Magazine), 0, this.Weapon.MagazineSize);
+		// 120 - 3 = 117
 		this.Ammo -= bulletsToReload;
 		this.Magazine = bulletsToReload;
 		return bulletsToReload;
@@ -81,7 +104,7 @@ public partial class WeaponController : Node3D
 			}
 			this._loadedMeshList.Clear();
 		}
-		if(this._animationPlayer != null){
+		if(this._animationPlayer != null && this._animationLibrary != null){
 			if(this._animationLibrary.HasAnimation("Shoot"))
 				this._animationLibrary.RemoveAnimation("Shoot");
 			if(this._animationLibrary.HasAnimation("Reload"))
@@ -95,27 +118,38 @@ public partial class WeaponController : Node3D
 		newMesh.Position = mesh.Position;
 		newMesh.RotationDegrees = mesh.Rotation;
 		newMesh.Scale = mesh.Scale;
-		this.AddChild(newMesh);
+		this._weaponNode.AddChild(newMesh);
 		this._loadedMeshList.Add(newMesh);
 	}
 	public void Fire(bool firing)
 	{	
+		GD.Print(firing?"Started firing":"Stopped firing");
 		this._firing = firing;
 		this._Fire();
 	}
 
 	private async void _Fire(){
-		if(this.Weapon == null || this.Magazine <= 0 || !this._firing)
+		GD.Print("Trying to fire");	
+		if(this.Weapon == null || this.Magazine <= 0 || !this._firing || this._fireCooldown)
 			return;
-		this._animationPlayer.Play("Shoot");
+		GD.Print("Firing");
+		if(this._animationLibrary.HasAnimation("Shoot")){
+			GD.Print("Has Animation");
+			this._animationPlayer.Stop();
+			this._animationPlayer.Play(this._animationLibraryName+"/Shoot");
+		}
 		this._ray.ForceRaycastUpdate();
 		if(this._ray.IsColliding()){
 			var colliding = this._ray.GetCollider();
 			this._ray.GetCollisionPoint();
 			GD.Print(colliding);
 		}
+		this.FiredBullets++;
 		this.Magazine--;
-		await Task.Delay(this._msBetweenShot);
-		this._Fire();
+		this._fireCooldown = true;
+		await Task.Delay((int)Mathf.Round(this._msBetweenShot));
+		this._fireCooldown = false;
+		if(this._weapon.Automatic)
+			this._Fire();
 	}
 }

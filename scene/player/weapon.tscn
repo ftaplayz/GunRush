@@ -1,16 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://2m640fvers00"]
+[gd_scene load_steps=5 format=3 uid="uid://2m640fvers00"]
 
 [ext_resource type="Script" path="res://Classes/WeaponController.cs" id="1_7puwj"]
+[ext_resource type="Animation" uid="uid://hl1v8cscko3i" path="res://weapons/m4/m4_shoot.res" id="3_ie0e2"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bfvg5"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jilcd"]
+_data = {
+"m4_shoot": ExtResource("3_ie0e2")
+}
 
 [node name="Weapon" type="Node3D" groups=["weapon"]]
-transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.44409, -0.232845, -0.264688)
 script = ExtResource("1_7puwj")
+Magazine = 30
+Ammo = 120
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="InnerWeapon" type="Node3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InnerWeapon"]
+root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_bfvg5"),
 "weapon": SubResource("AnimationLibrary_jilcd")
