@@ -9,9 +9,11 @@ public partial class Weapon : Resource
 	[ExportCategory("Weapon Positioning")]
 	[Export] public Vector3 Position { get; set; }
 	[Export] public Vector3 Rotation { get; set; }
+	[Export] public Vector3 MuzzlePosition {get; set;}
 	[ExportCategory("Weapon Model")]
 	[Export] public MeshTransform3D[] MeshList { get; set; }
 	[Export] public Vector3 Size {get; set; }
+	
 	[ExportCategory("Weapon Animation")]
 	[Export] public Animation ShootAnimation {get; set;}
 	[Export] public Animation ReloadAnimation {get; set;}

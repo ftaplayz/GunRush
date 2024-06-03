@@ -17,6 +17,7 @@ script = ExtResource("2_6aasv")
 Name = ""
 Position = Vector3(0.44409, -0.232845, -0.264688)
 Rotation = Vector3(0, 180, 0)
+MuzzlePosition = Vector3(-5.72205e-06, 7.80287, 59.0081)
 MeshList = [SubResource("Resource_t4uqj")]
 Size = Vector3(0.015, 0.015, 0.015)
 ShootAnimation = ExtResource("3_nm0a6")

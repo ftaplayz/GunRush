@@ -24,3 +24,6 @@ libraries = {
 "": SubResource("AnimationLibrary_bfvg5"),
 "weapon": SubResource("AnimationLibrary_jilcd")
 }
+
+[node name="Muzzle" type="Node3D" parent="InnerWeapon"]
+transform = Transform3D(1, 0, 1.20792e-13, 0, 1, 0, -1.20792e-13, 0, 1, -5.72205e-06, 7.80287, 59.0081)

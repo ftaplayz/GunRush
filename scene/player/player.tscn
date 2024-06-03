@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvmpevbb3gm3"]
+[gd_scene load_steps=6 format=3 uid="uid://cvmpevbb3gm3"]
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
 [ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/player/weapon.tscn" id="2_ds845"]
-[ext_resource type="Resource" uid="uid://bj3aghrxpian4" path="res://weapons/m4/m4.tres" id="3_m24py"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -24,7 +23,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
-Weapon = ExtResource("3_m24py")
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)
@@ -40,3 +38,38 @@ disabled = true
 [node name="StandingRaycast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 target_position = Vector3(0, 2, 0)
+
+[node name="Crosshair" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Top" type="Line2D" parent="Crosshair/CenterContainer"]
+points = PackedVector2Array(0, -5, 0, -15)
+width = 2.0
+
+[node name="Left" type="Line2D" parent="Crosshair/CenterContainer"]
+points = PackedVector2Array(-5, 0, -15, 0)
+width = 2.0
+
+[node name="Right" type="Line2D" parent="Crosshair/CenterContainer"]
+points = PackedVector2Array(5, 0, 15, 0)
+width = 2.0
+
+[node name="Bottom" type="Line2D" parent="Crosshair/CenterContainer"]
+points = PackedVector2Array(0, 5, 0, 15)
+width = 2.0

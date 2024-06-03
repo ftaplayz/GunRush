@@ -18,8 +18,11 @@ public partial class WeaponController : Node3D
 		{
 			this._weapon = value;
 			//if(Engine.IsEditorHint())
-			this._GetEssentialNodes();
-			this._InitWeapon();
+			if(this._weapon != null){
+				this._GetEssentialNodes();
+				this._InitWeapon();
+			}else
+				this._ClearWeapon();
 		}
 	}
 
@@ -35,6 +38,7 @@ public partial class WeaponController : Node3D
 	private RayCast3D _ray;
 	private AnimationPlayer _animationPlayer;
 	private AnimationLibrary _animationLibrary;
+	private Node3D _muzzle;
 	private string _animationLibraryName = "weapon";
 	
 	public override void _Ready()
@@ -48,6 +52,7 @@ public partial class WeaponController : Node3D
 
 	private void _GetEssentialNodes(){
 		this._weaponNode = this.GetNode<Node3D>("InnerWeapon");
+		this._muzzle = this._weaponNode.GetNode<Node3D>("Muzzle");
 		this._animationPlayer = this._weaponNode.GetNode<AnimationPlayer>("AnimationPlayer");
 		this._animationLibrary = this._animationPlayer.GetAnimationLibrary(this._animationLibraryName);
 	}
@@ -68,6 +73,7 @@ public partial class WeaponController : Node3D
 		// Weapon Properties
 		this.Magazine = this.Weapon.MagazineSize;
 		this.Ammo = this.Weapon.MaxAmmo;
+		this._muzzle.Position = this.Weapon.MuzzlePosition;
 
 		// Weapon Meshes
 		foreach(MeshTransform3D mesh in Weapon.MeshList)
@@ -123,6 +129,7 @@ public partial class WeaponController : Node3D
 	}
 	public void Fire(bool firing)
 	{	
+		if(this._weapon == null) return;
 		GD.Print(firing?"Started firing":"Stopped firing");
 		this._firing = firing;
 		this._Fire();

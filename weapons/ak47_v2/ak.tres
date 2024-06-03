@@ -44,3 +44,6 @@ MeshList = [SubResource("Resource_vq81h"), SubResource("Resource_dutpm"), SubRes
 Size = Vector3(0.003, 0.003, 0.003)
 Damage = 50.0
 FireRate = 120
+Automatic = false
+MagazineSize = 0
+MaxAmmo = 0
