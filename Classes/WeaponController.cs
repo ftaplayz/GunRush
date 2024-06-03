@@ -127,12 +127,13 @@ public partial class WeaponController : Node3D
 		this._weaponNode.AddChild(newMesh);
 		this._loadedMeshList.Add(newMesh);
 	}
-	public void Fire(bool firing)
+	public float Fire(bool firing)
 	{	
-		if(this._weapon == null) return;
+		if(this._weapon == null) return 0.0f;
 		GD.Print(firing?"Started firing":"Stopped firing");
 		this._firing = firing;
 		this._Fire();
+		return (new Random()).Next;
 	}
 
 	private async void _Fire(){

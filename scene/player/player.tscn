@@ -23,6 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
+transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.44409, -0.232845, -0.264688)
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)

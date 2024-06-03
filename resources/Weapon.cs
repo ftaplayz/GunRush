@@ -23,6 +23,7 @@ public partial class Weapon : Resource
 	[Export] public bool Automatic {get; set;}
 	[Export] public int MagazineSize {get; set;}
 	[Export] public int MaxAmmo {get; set;}
+	[Export] public float Recoil {get; set;}
 	//[Export] public float ReloadTime {get; set;}
 
 }

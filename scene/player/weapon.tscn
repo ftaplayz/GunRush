@@ -7,6 +7,7 @@
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jilcd"]
 _data = {
+"Shoot": ExtResource("3_ie0e2"),
 "m4_shoot": ExtResource("3_ie0e2")
 }
 
