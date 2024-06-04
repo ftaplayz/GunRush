@@ -11,7 +11,7 @@ public partial class Player : Humanoid
 	public static int StateJumping = 2;
 	public static int StateCrouching = 3;
 	public static int StateFalling = 4;
-	private Node3D _camera;
+	private CustomCamera _camera;
 	private WeaponController _weapon;
 	private RayCast3D _raycastStand;
 	private CollisionShape3D _standingCollision;
@@ -26,7 +26,7 @@ public partial class Player : Humanoid
 	
 	public override void _Ready()
 	{
-		this._camera = GetNode<Node3D>("CameraRoot");
+		this._camera = GetNode<CustomCamera>("CameraRoot");
 		this._weapon = _camera.GetNode<WeaponController>("Weapon");
 		this._raycastStand = GetNode<RayCast3D>("StandingRaycast");
 		this._standingCollision = GetNode<CollisionShape3D>("StandingCollision");
@@ -39,10 +39,7 @@ public partial class Player : Humanoid
 		if (@event is InputEventMouseMotion mouseMotion)
 		{
 			this.RotateY(Mathf.DegToRad(-mouseMotion.Relative.X * Sensitivity));
-			this._camera.RotateX(Mathf.DegToRad(-mouseMotion.Relative.Y * Sensitivity));
-			var euler = this._camera.Transform.Basis.GetEuler();
-			euler.X = Mathf.Clamp(euler.X, Mathf.DegToRad(-89), Mathf.DegToRad(89));
-			this._camera.Basis = Basis.FromEuler(euler);
+			this._camera.RotateX(-mouseMotion.Relative.Y * Sensitivity);
 		}
 	}
 

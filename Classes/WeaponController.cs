@@ -39,13 +39,17 @@ public partial class WeaponController : Node3D
 	private AnimationPlayer _animationPlayer;
 	private AnimationLibrary _animationLibrary;
 	private Node3D _muzzle;
+	private CustomCamera _camera;
+	private GpuParticles3D _muzzleFlash;
 	private string _animationLibraryName = "weapon";
 	
 	public override void _Ready()
 	{
 		this._ready = true;
+		this._camera = this.GetParent<CustomCamera>();
 		this._ray = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
 		this._GetEssentialNodes();
+		this._muzzleFlash = this._muzzle.GetNode<GpuParticles3D>("GPUParticles3D");
 		this._InitWeapon();
 		
 	}
@@ -127,13 +131,12 @@ public partial class WeaponController : Node3D
 		this._weaponNode.AddChild(newMesh);
 		this._loadedMeshList.Add(newMesh);
 	}
-	public float Fire(bool firing)
+	public void Fire(bool firing)
 	{	
-		if(this._weapon == null) return 0.0f;
+		if(this._weapon == null) return;
 		GD.Print(firing?"Started firing":"Stopped firing");
 		this._firing = firing;
 		this._Fire();
-		return (new Random()).Next;
 	}
 
 	private async void _Fire(){
@@ -145,18 +148,21 @@ public partial class WeaponController : Node3D
 			GD.Print("Has Animation");
 			this._animationPlayer.Stop();
 			this._animationPlayer.Play(this._animationLibraryName+"/Shoot");
-		}
+		}		
+		this._muzzleFlash.Emitting = true;
 		this._ray.ForceRaycastUpdate();
 		if(this._ray.IsColliding()){
 			var colliding = this._ray.GetCollider();
 			this._ray.GetCollisionPoint();
 			GD.Print(colliding);
 		}
+		this._camera.RotateX(this.Weapon.Recoil);
 		this.FiredBullets++;
 		this.Magazine--;
 		this._fireCooldown = true;
 		await Task.Delay((int)Mathf.Round(this._msBetweenShot));
 		this._fireCooldown = false;
+		this._muzzleFlash.Emitting = false;
 		if(this._weapon.Automatic)
 			this._Fire();
 	}

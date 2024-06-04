@@ -48,3 +48,4 @@ FireRate = 120
 Automatic = false
 MagazineSize = 0
 MaxAmmo = 0
+Recoil = 0.0
