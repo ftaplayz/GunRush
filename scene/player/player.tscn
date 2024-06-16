@@ -26,9 +26,10 @@ script = ExtResource("2_8yv4o")
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
-transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.444, -0.233, -0.265)
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 Weapon = ExtResource("3_3n1sj")
-Magazine = 30
+Magazine = 0
+Ammo = 0
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)
