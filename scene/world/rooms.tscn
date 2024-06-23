@@ -31,14 +31,14 @@ size = Vector3(20, 10, 1)
 size = Vector3(20, 10, 1)
 
 [node name="Rooms" type="Node3D"]
-visible = false
 
 [node name="Mid" type="Node3D" parent="."]
 
 [node name="Room1" type="Node3D" parent="Mid"]
+visible = false
 
 [node name="Entrance" type="Node3D" parent="Mid/Room1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -10)
 
 [node name="TopLeft" type="Node3D" parent="Mid/Room1/Entrance"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
@@ -53,7 +53,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -2, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -2, 0)
 
 [node name="Exit" type="Node3D" parent="Mid/Room1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 10)
 
 [node name="TopLeft" type="Node3D" parent="Mid/Room1/Exit"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 0)
@@ -164,15 +164,7 @@ shape = SubResource("BoxShape3D_qtxey")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mid/Room1/Visuals/Wall4/StaticBody3D3"]
 mesh = SubResource("BoxMesh_aeja3")
 
-[node name="Label3D" type="Label3D" parent="Mid/Room1/Visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.415581, 7.09299, 7.57872)
-pixel_size = 0.0305
-text = "OLAAAA
-"
-font_size = 100
-
 [node name="StartEnd" type="Node3D" parent="."]
-visible = false
 
 [node name="Room1" type="Node3D" parent="StartEnd"]
 
@@ -266,3 +258,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -2, 0)
 
 [node name="BottomRight" type="Node3D" parent="StartEnd/Room1/Door"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -2, 0)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 40)
+pixel_size = 1.0
+text = "SAIDA"
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40)
+pixel_size = 1.0
+text = "ENTRADA"

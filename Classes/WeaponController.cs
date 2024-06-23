@@ -136,7 +136,7 @@ public partial class WeaponController : Node3D
 		if(this._weapon == null) return;
 		GD.Print(firing?"Started firing":"Stopped firing");
 		this._firing = firing;
-		this._Fire();
+		if(this._firing) this._Fire();
 	}
 
 	private async void _Fire(){

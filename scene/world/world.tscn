@@ -1,15 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://7lc74bbki0rs"]
+[gd_scene load_steps=7 format=3 uid="uid://7lc74bbki0rs"]
 
 [ext_resource type="PackedScene" uid="uid://b77dmtvqewd6y" path="res://scene/world/baseplate.tscn" id="1_78sqd"]
+[ext_resource type="Script" path="res://Classes/DungeonGenerate.cs" id="1_j6pl2"]
 [ext_resource type="PackedScene" uid="uid://cvmpevbb3gm3" path="res://scene/player/player.tscn" id="2_ibtqs"]
-[ext_resource type="PackedScene" uid="uid://o5cw4uouawdr" path="res://weapons/m4/low-poly_assault_rifle.glb" id="3_5ax1u"]
+[ext_resource type="PackedScene" uid="uid://can2pjy00sav" path="res://scene/world/rooms.tscn" id="4_tkju7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ua8wk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kx8s1"]
 size = Vector3(3.08807, 0.313904, 1)
 
-[node name="world" type="Node3D"]
+[node name="world" type="Node3D" node_paths=PackedStringArray("Rooms", "Dungeon")]
+script = ExtResource("1_j6pl2")
+Rooms = NodePath("Rooms")
+Length = 39
+Seed = 1
+Dungeon = NodePath("")
 
 [node name="Baseplate" parent="." instance=ExtResource("1_78sqd")]
 transform = Transform3D(100, 0, 0, 0, 1.999, 0, 0, 0, 100, 0, 0, 0)
@@ -31,5 +37,6 @@ mesh = SubResource("BoxMesh_ua8wk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0608826, 0.202728, 0.0950403)
 shape = SubResource("BoxShape3D_kx8s1")
 
-[node name="Sketchfab_Scene" parent="." instance=ExtResource("3_5ax1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.66445, 0.9995, -5.34941)
+[node name="Rooms" parent="." instance=ExtResource("4_tkju7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1000, 0)
+visible = false
