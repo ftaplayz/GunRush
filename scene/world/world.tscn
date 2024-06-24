@@ -13,8 +13,8 @@ size = Vector3(3.08807, 0.313904, 1)
 [node name="world" type="Node3D" node_paths=PackedStringArray("Rooms", "Dungeon")]
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("Rooms")
-Length = 39
-Seed = 1
+Length = 8
+Seed = 14
 Dungeon = NodePath("")
 
 [node name="Baseplate" parent="." instance=ExtResource("1_78sqd")]

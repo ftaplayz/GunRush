@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace GunRush.Classes;
 [Tool]
 public partial class DungeonGenerate : Node3D
 {
+	private static int ROOM_START_END = 0;
+	private static int ROOM_MID = 1;
 	[Export] public Node3D Rooms {get;set;}
 	[Export] public int Length {get; private set;}
 	[Export] public int Seed { get; set; }
@@ -23,9 +26,11 @@ public partial class DungeonGenerate : Node3D
 			}
 		}
 	}
+
+	
 	
 	private bool _generateButton = false;
-	private int _roomsCount = 0;
+	private List<Node3D> _rooms = new List<Node3D>();
 	public override void _Ready(){
 		GD.Print(this._CheckRooms());
 		this.Generate();
@@ -56,10 +61,57 @@ public partial class DungeonGenerate : Node3D
 	private void _Generate()
 	{
 		GD.Print("Seed", this.Seed);
-		var random = new Random(this.Seed);
-		this.Length = random.Next(3, 150);
+		var seedRandom = new Random(this.Seed);
+		this.Length = seedRandom.Next(3, 150);
+		for(var i=1;i<=this.Length;i++)
+		{
+			var startEnd = this.Rooms.GetNode<Node3D>("StartEnd");
+			var mid = this.Rooms.GetNode<Node3D>("Mid");
+			var last = i == this.Length;
+			Node3D room = null;
+			if (i == 1 || last)
+			{
+				room = startEnd.GetChild<Node3D>(seedRandom.Next(0, startEnd.GetChildCount())).Duplicate() as Node3D;
+				if(last){
+					room.RotateY(Mathf.DegToRad(180));
+					GD.Print("Rotated last room");
+					GD.Print(room.RotationDegrees);
+				}
+			}
+			else
+			{
+				room = mid.GetChild<Node3D>(seedRandom.Next(0, mid.GetChildCount())).Duplicate() as Node3D;
+			}
+			this._rooms.Add(room);
+			if (this._rooms.Count >= 2)
+			{
+				this._ConnectRooms(this._rooms[i-2], this._rooms[i-1]);
+			}
+			GD.Print(this._rooms[i-1]);
+		}
+		GD.Print(this._rooms.Count);
+		GD.Print(_rooms);
 		GD.Print(this.Length);
-		GD.Print(random.Next(0, 100000));
+	}
+
+	private void _ConnectRooms(Node3D room1, Node3D room2)
+	{
+		var room1Type = this._GetRoomType(room1);
+		var room2Type = this._GetRoomType(room2);
+		if (room1Type == ROOM_MID && room2Type == ROOM_MID)
+		{
+			GD.Print("Connecting two mid rooms");
+		}
+		else
+		{
+			GD.Print("Connecting start/end room with mid room");
+		}
+
+	}
+
+	private int _GetRoomType(Node3D room)
+	{
+		return room.GetNodeOrNull<Node3D>("Door") == null ? ROOM_MID : ROOM_START_END;
 	}
 	
 	public void Generate()
