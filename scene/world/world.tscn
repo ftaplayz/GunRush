@@ -10,10 +10,11 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_kx8s1"]
 size = Vector3(3.08807, 0.313904, 1)
 
-[node name="world" type="Node3D" node_paths=PackedStringArray("Rooms", "Dungeon")]
+[node name="world" type="Node3D" node_paths=PackedStringArray("Rooms", "Spawn", "Dungeon")]
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("Rooms")
 Length = 8
+Spawn = NodePath("")
 Seed = 14
 Dungeon = NodePath("")
 

@@ -10,8 +10,10 @@ public partial class DungeonGenerate : Node3D
 	private static int ROOM_MID = 1;
 	[Export] public Node3D Rooms {get;set;}
 	[Export] public int Length {get; private set;}
+	[Export] public Node3D Spawn {get;set;}
 	[Export] public int Seed { get; set; }
 	[Export] public Node3D Dungeon { get; set; } = new Node3D();
+	[Export] public int RoomDistance {get;set;}
 	[Export] public bool GenerateButton
 	{
 		get => this._generateButton;
@@ -39,6 +41,8 @@ public partial class DungeonGenerate : Node3D
 	private void _ClearDungeon()
 	{
 		this.Dungeon?.QueueFree();
+		this._rooms.Clear();
+		this.Spawn = null;
 		this.Dungeon = new Node3D();
 	}
 	private bool _CheckRooms()
@@ -61,33 +65,47 @@ public partial class DungeonGenerate : Node3D
 	private void _Generate()
 	{
 		GD.Print("Seed", this.Seed);
+		var zOffset = 0;
 		var seedRandom = new Random(this.Seed);
 		this.Length = seedRandom.Next(3, 150);
+		var startEnd = this.Rooms.GetNode<Node3D>("StartEnd");
+		var mid = this.Rooms.GetNode<Node3D>("Mid");
 		for(var i=1;i<=this.Length;i++)
 		{
-			var startEnd = this.Rooms.GetNode<Node3D>("StartEnd");
-			var mid = this.Rooms.GetNode<Node3D>("Mid");
 			var last = i == this.Length;
-			Node3D room = null;
+			CustomNode room = null;
 			if (i == 1 || last)
 			{
-				room = startEnd.GetChild<Node3D>(seedRandom.Next(0, startEnd.GetChildCount())).Duplicate() as Node3D;
-				if(last){
+				room = startEnd.GetChild<Node3D>(seedRandom.Next(0, startEnd.GetChildCount())).Duplicate() as CustomNode;
+				if(last)
+				{
 					room.RotateY(Mathf.DegToRad(180));
 					GD.Print("Rotated last room");
 					GD.Print(room.RotationDegrees);
 				}
+				else
+					this.Spawn = room.GetNode<Node3D>("Spawn");
 			}
 			else
 			{
-				room = mid.GetChild<Node3D>(seedRandom.Next(0, mid.GetChildCount())).Duplicate() as Node3D;
+				room = mid.GetChild<Node3D>(seedRandom.Next(0, mid.GetChildCount())).Duplicate() as CustomNode;
 			}
 			this._rooms.Add(room);
-			if (this._rooms.Count >= 2)
+			var roomsCount = this._rooms.Count;
+			room.Position = new Vector3(0, 0, zOffset);
+			var size = room.GetAabb().Size;
+			zOffset += (int)size.Z+this.RoomDistance;
+			if(roomsCount >= 1)	
 			{
-				this._ConnectRooms(this._rooms[i-2], this._rooms[i-1]);
+				
+				if (roomsCount >= 2)
+				{
+					this._ConnectRooms(this._rooms[i-2], this._rooms[i-1]);
+				}
 			}
-			GD.Print(this._rooms[i-1]);
+			GD.Print("Room size");
+			GD.Print(room.GetAabb().Size);
+			this.Dungeon.AddChild(room);
 		}
 		GD.Print(this._rooms.Count);
 		GD.Print(_rooms);
