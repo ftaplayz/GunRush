@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=3 uid="uid://7lc74bbki0rs"]
+[gd_scene load_steps=6 format=3 uid="uid://7lc74bbki0rs"]
 
-[ext_resource type="PackedScene" uid="uid://b77dmtvqewd6y" path="res://scene/world/baseplate.tscn" id="1_78sqd"]
 [ext_resource type="Script" path="res://Classes/DungeonGenerate.cs" id="1_j6pl2"]
 [ext_resource type="PackedScene" uid="uid://cvmpevbb3gm3" path="res://scene/player/player.tscn" id="2_ibtqs"]
 [ext_resource type="PackedScene" uid="uid://can2pjy00sav" path="res://scene/world/rooms.tscn" id="4_tkju7"]
@@ -10,19 +9,11 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_kx8s1"]
 size = Vector3(3.08807, 0.313904, 1)
 
-[node name="world" type="Node3D" node_paths=PackedStringArray("Rooms", "Spawn", "Dungeon")]
-script = ExtResource("1_j6pl2")
-Rooms = NodePath("Rooms")
-Length = 8
-Spawn = NodePath("")
-Seed = 14
-Dungeon = NodePath("")
-
-[node name="Baseplate" parent="." instance=ExtResource("1_78sqd")]
-transform = Transform3D(100, 0, 0, 0, 1.999, 0, 0, 0, 100, 0, 0, 0)
+[node name="world" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("2_ibtqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.611069, 2.00263, -2.40343)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.611069, 2.00263, 4.08188)
+Speed = 20.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, -1.01863e-10, -0.00157079, 0.00156837, -0.0555253, 0.998456, -8.72189e-05, -0.998457, -0.0555252, 11.9494, -65.445, -2.91128)
@@ -41,3 +32,10 @@ shape = SubResource("BoxShape3D_kx8s1")
 [node name="Rooms" parent="." instance=ExtResource("4_tkju7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1000, 0)
 visible = false
+
+[node name="Dungeon" type="Node3D" parent="." node_paths=PackedStringArray("Rooms", "Spawn")]
+script = ExtResource("1_j6pl2")
+Rooms = NodePath("../Rooms")
+Length = 9
+Spawn = NodePath("@Node3D@31108/Spawn")
+Seed = 7

@@ -12,8 +12,6 @@ public partial class DungeonGenerate : Node3D
 	[Export] public int Length {get; private set;}
 	[Export] public Node3D Spawn {get;set;}
 	[Export] public int Seed { get; set; }
-	[Export] public Node3D Dungeon { get; set; } = new Node3D();
-	[Export] public int RoomDistance {get;set;}
 	[Export] public bool GenerateButton
 	{
 		get => this._generateButton;
@@ -40,13 +38,14 @@ public partial class DungeonGenerate : Node3D
 	
 	private void _ClearDungeon()
 	{
-		this.Dungeon?.QueueFree();
+		foreach(var room in this._rooms)
+			room.QueueFree();
 		this._rooms.Clear();
 		this.Spawn = null;
-		this.Dungeon = new Node3D();
 	}
 	private bool _CheckRooms()
 	{
+		GD.Print("Checking rooms");
 		if (this.Rooms != null)
 		{
 			if (this.Rooms.GetChildCount() >= 2)
@@ -59,15 +58,16 @@ public partial class DungeonGenerate : Node3D
 				}
 			}
 		}
+		GD.Print("No rooms found");
 		return false;
 	}
 
 	private void _Generate()
 	{
 		GD.Print("Seed", this.Seed);
-		var zOffset = 0;
+		var zOffset = 0.0f;
 		var seedRandom = new Random(this.Seed);
-		this.Length = seedRandom.Next(3, 150);
+		this.Length = seedRandom.Next(3, 20);
 		var startEnd = this.Rooms.GetNode<Node3D>("StartEnd");
 		var mid = this.Rooms.GetNode<Node3D>("Mid");
 		for(var i=1;i<=this.Length;i++)
@@ -81,7 +81,6 @@ public partial class DungeonGenerate : Node3D
 				{
 					room.RotateY(Mathf.DegToRad(180));
 					GD.Print("Rotated last room");
-					GD.Print(room.RotationDegrees);
 				}
 				else
 					this.Spawn = room.GetNode<Node3D>("Spawn");
@@ -92,27 +91,26 @@ public partial class DungeonGenerate : Node3D
 			}
 			this._rooms.Add(room);
 			var roomsCount = this._rooms.Count;
-			room.Position = new Vector3(0, 0, zOffset);
 			var size = room.GetAabb().Size;
-			zOffset += (int)size.Z+this.RoomDistance;
-			if(roomsCount >= 1)	
+			GD.Print(size);
+			var halfZ = size.Z / 2;
+			zOffset += halfZ;
+			room.Position = new Vector3(0, 0, zOffset);
+			zOffset += halfZ;
+			/*if(roomsCount >= 1)	
 			{
 				
 				if (roomsCount >= 2)
 				{
 					this._ConnectRooms(this._rooms[i-2], this._rooms[i-1]);
 				}
-			}
-			GD.Print("Room size");
-			GD.Print(room.GetAabb().Size);
-			this.Dungeon.AddChild(room);
+			}*/
+			room.Visible = true;
+			this.AddChild(room);
 		}
-		GD.Print(this._rooms.Count);
-		GD.Print(_rooms);
-		GD.Print(this.Length);
 	}
 
-	private void _ConnectRooms(Node3D room1, Node3D room2)
+	/*private void _ConnectRooms(Node3D room1, Node3D room2)
 	{
 		var room1Type = this._GetRoomType(room1);
 		var room2Type = this._GetRoomType(room2);
@@ -125,7 +123,7 @@ public partial class DungeonGenerate : Node3D
 			GD.Print("Connecting start/end room with mid room");
 		}
 
-	}
+	}*/
 
 	private int _GetRoomType(Node3D room)
 	{
