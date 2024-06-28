@@ -5,6 +5,12 @@ namespace GunRush.Classes;
 [Tool]
 public partial class CustomNode : Node3D
 {
+
+	/*
+	TODO: 
+	ALTERAR NOME DA CLASS PARA DUNGEON
+	ADICIONAR INIMIGOS
+	*/
 	private Aabb aabb;
 	public Aabb GetAabb(){
 		this.aabb = new Aabb();
