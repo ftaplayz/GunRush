@@ -73,10 +73,10 @@ public partial class DungeonGenerate : Node3D
 		for(var i=1;i<=this.Length;i++)
 		{
 			var last = i == this.Length;
-			CustomNode room = null;
+			Dungeon room = null;
 			if (i == 1 || last)
 			{
-				room = startEnd.GetChild<Node3D>(seedRandom.Next(0, startEnd.GetChildCount())).Duplicate() as CustomNode;
+				room = startEnd.GetChild<Node3D>(seedRandom.Next(0, startEnd.GetChildCount())).Duplicate() as Dungeon;
 				if(last)
 				{
 					room.RotateY(Mathf.DegToRad(180));
@@ -87,7 +87,7 @@ public partial class DungeonGenerate : Node3D
 			}
 			else
 			{
-				room = mid.GetChild<Node3D>(seedRandom.Next(0, mid.GetChildCount())).Duplicate() as CustomNode;
+				room = mid.GetChild<Node3D>(seedRandom.Next(0, mid.GetChildCount())).Duplicate() as Dungeon;
 			}
 			this._rooms.Add(room);
 			var roomsCount = this._rooms.Count;

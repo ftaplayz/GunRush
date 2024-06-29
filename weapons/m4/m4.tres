@@ -26,4 +26,4 @@ FireRate = 900
 Automatic = true
 MagazineSize = 30
 MaxAmmo = 120
-Recoil = 10.0
+Recoil = 4.0

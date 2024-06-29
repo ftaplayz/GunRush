@@ -151,11 +151,8 @@ public partial class WeaponController : Node3D
 		}		
 		this._muzzleFlash.Emitting = true;
 		this._ray.ForceRaycastUpdate();
-		if(this._ray.IsColliding()){
-			var colliding = this._ray.GetCollider();
-			this._ray.GetCollisionPoint();
-			GD.Print(colliding);
-		}
+		if(this._ray.IsColliding())
+			this._OnHit(this._ray.GetCollider() as Node3D);
 		this._camera.RotateX(this.Weapon.Recoil);
 		this.FiredBullets++;
 		this.Magazine--;
@@ -165,5 +162,16 @@ public partial class WeaponController : Node3D
 		this._muzzleFlash.Emitting = false;
 		if(this._weapon.Automatic)
 			this._Fire();
+	}
+
+	private void _OnHit(Node3D node)
+	{
+		GD.Print(node.Name);
+		if (node.IsInGroup("enemy") && node is DamageController)
+		{
+			GD.Print("hit enemy");
+			var damageController = node as DamageController;
+			damageController.TakeDamage(this.Weapon.Damage);
+		}
 	}
 }

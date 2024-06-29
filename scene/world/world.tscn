@@ -1,8 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://7lc74bbki0rs"]
+[gd_scene load_steps=10 format=3 uid="uid://7lc74bbki0rs"]
 
 [ext_resource type="Script" path="res://Classes/DungeonGenerate.cs" id="1_j6pl2"]
 [ext_resource type="PackedScene" uid="uid://cvmpevbb3gm3" path="res://scene/player/player.tscn" id="2_ibtqs"]
+[ext_resource type="PackedScene" uid="uid://bkrbejv46r24d" path="res://scene/enemy/enemy.tscn" id="4_aoo1x"]
 [ext_resource type="PackedScene" uid="uid://can2pjy00sav" path="res://scene/world/rooms.tscn" id="4_tkju7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_82kbk"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_w3k8w"]
+sky_material = SubResource("ProceduralSkyMaterial_82kbk")
+
+[sub_resource type="Environment" id="Environment_ilcjv"]
+background_mode = 2
+sky = SubResource("Sky_w3k8w")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_ua8wk"]
 
@@ -11,12 +25,16 @@ size = Vector3(3.08807, 0.313904, 1)
 
 [node name="world" type="Node3D"]
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ilcjv")
+
 [node name="Player" parent="." instance=ExtResource("2_ibtqs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.611069, 2.00263, 4.08188)
 Speed = 20.0
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.999999, -1.01863e-10, -0.00157079, 0.00156837, -0.0555253, 0.998456, -8.72189e-05, -0.998457, -0.0555252, 11.9494, -65.445, -2.91128)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.732069, 2.24777, -10.2666)
@@ -37,5 +55,21 @@ visible = false
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("../Rooms")
 Length = 9
-Spawn = NodePath("@Node3D@31108/Spawn")
+Spawn = NodePath("@Node3D@143617/Spawn")
 Seed = 7
+
+[node name="enemy" parent="." instance=ExtResource("4_aoo1x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 7.91066)
+
+[node name="enemy2" parent="." instance=ExtResource("4_aoo1x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 9.22732)
+ShootTest = true
+
+[node name="enemy3" parent="." instance=ExtResource("4_aoo1x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 10.5)
+WalkTest = true
+
+[node name="enemy4" parent="." instance=ExtResource("4_aoo1x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 11.6054)
+WalkTest = true
+ShootTest = true
