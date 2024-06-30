@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
 [ext_resource type="Script" path="res://Classes/CustomCamera.cs" id="2_8yv4o"]
-[ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/player/weapon.tscn" id="2_ds845"]
 [ext_resource type="Resource" uid="uid://bj3aghrxpian4" path="res://weapons/m4/m4.tres" id="3_3n1sj"]
+[ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/weapon/weapon.tscn" id="3_j3vjc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -25,11 +25,10 @@ script = ExtResource("2_8yv4o")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
-[node name="Weapon" parent="CameraRoot" instance=ExtResource("2_ds845")]
+[node name="Weapon" parent="CameraRoot" node_paths=PackedStringArray("WeaponRaycast") instance=ExtResource("3_j3vjc")]
 transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.444, -0.233, -0.265)
 Weapon = ExtResource("3_3n1sj")
-Magazine = 0
-Ammo = 0
+WeaponRaycast = NodePath("../AimRay")
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)

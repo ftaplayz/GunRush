@@ -26,6 +26,7 @@ public partial class Player : Humanoid
 	
 	public override void _Ready()
 	{
+		GD.Print(this.GetNode<Global>("/root/Global").Difficulty);
 		this._camera = GetNode<CustomCamera>("CameraRoot");
 		this._weapon = _camera.GetNode<WeaponController>("Weapon");
 		this._raycastStand = GetNode<RayCast3D>("StandingRaycast");

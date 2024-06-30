@@ -51,25 +51,14 @@ shape = SubResource("BoxShape3D_kx8s1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1000, 0)
 visible = false
 
-[node name="Dungeon" type="Node3D" parent="." node_paths=PackedStringArray("Rooms", "Spawn")]
+[node name="Dungeon" type="Node3D" parent="." node_paths=PackedStringArray("Rooms", "Spawn", "Enemy")]
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("../Rooms")
 Length = 9
-Spawn = NodePath("@Node3D@143617/Spawn")
+Spawn = NodePath("@Node3D@109920/Spawn")
 Seed = 7
+Enemy = NodePath("../enemy")
 
 [node name="enemy" parent="." instance=ExtResource("4_aoo1x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 7.91066)
-
-[node name="enemy2" parent="." instance=ExtResource("4_aoo1x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 9.22732)
-ShootTest = true
-
-[node name="enemy3" parent="." instance=ExtResource("4_aoo1x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 10.5)
-WalkTest = true
-
-[node name="enemy4" parent="." instance=ExtResource("4_aoo1x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 11.6054)
-WalkTest = true
-ShootTest = true
+Health = 100.0

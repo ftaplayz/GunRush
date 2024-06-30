@@ -1,15 +1,19 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 
 namespace GunRush.Classes;
 
+[Tool]
 public partial class Enemy : Humanoid
 {
 	[Export] public bool WalkTest { get; set; }
 	[Export] public bool ShootTest { get; set; }
+	public List<Node3D> Roams { get; set; } = new List<Node3D>();
 	private AnimationTree _animationTree;
 	private List<CollisionShape3D> _collisions = new List<CollisionShape3D>();
 	private bool _hasTarget = false;
+	private Random _random = new Random();
 	
 	public override void _Ready()
 	{
@@ -31,6 +35,11 @@ public partial class Enemy : Humanoid
 				if(child.GetChildCount() > 0)
 					this._GetCollisionShapes(child as Node3D);
 			}
+	}
+
+	public void SetRandom(Random random)
+	{
+		this._random = random;
 	}
 
 	private void _UpdateAnimationTree()

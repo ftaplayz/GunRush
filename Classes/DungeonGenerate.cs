@@ -27,12 +27,12 @@ public partial class DungeonGenerate : Node3D
 		}
 	}
 
-	
-	
+	[Export]
+	public CharacterBody3D Enemy { get; set; }
+	private Enemy _enemy;
 	private bool _generateButton = false;
 	private List<Node3D> _rooms = new List<Node3D>();
 	public override void _Ready(){
-		GD.Print(this._CheckRooms());
 		this.Generate();
 	}
 	
@@ -59,6 +59,18 @@ public partial class DungeonGenerate : Node3D
 			}
 		}
 		GD.Print("No rooms found");
+		return false;
+	}
+
+	private bool _CheckEnemy()
+	{
+		GD.Print("Checking for enemy");
+		if (this.Enemy is Enemy)
+		{
+			GD.Print("Enemy valid");
+			this._enemy = this.Enemy as Enemy;
+			return true;
+		}
 		return false;
 	}
 
@@ -107,6 +119,26 @@ public partial class DungeonGenerate : Node3D
 			}*/
 			room.Visible = true;
 			this.AddChild(room);
+			if (this._CheckEnemy())
+			{
+				GD.Print("Has enemy");
+				this._enemy.Roams = room.Roams;
+				this._enemy.SetRandom(seedRandom);
+				GD.Print("Trying to spawn enemy");
+				foreach (var spawn in room.Spawns)
+				{
+					var rand = seedRandom.Next(0, 2);
+					GD.Print(rand);
+					if (rand == 1)
+					{
+						GD.Print("spawned enemy");
+						var enemy = _enemy.Duplicate() as Enemy;
+						enemy.Position = spawn.Position;
+						enemy.Visible = true;
+						room.AddChild(enemy);
+					}
+				}
+			}
 		}
 	}
 

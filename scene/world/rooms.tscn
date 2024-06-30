@@ -200,6 +200,36 @@ shape = SubResource("BoxShape3D_qtxey")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mid/Room1/Visuals/NavigationRegion3D/Wall4/StaticBody3D3"]
 mesh = SubResource("BoxMesh_aeja3")
 
+[node name="Bots" type="Node3D" parent="Mid/Room1"]
+
+[node name="Spawns" type="Node3D" parent="Mid/Room1/Bots"]
+
+[node name="Node3D" type="Node3D" parent="Mid/Room1/Bots/Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, 7.5)
+
+[node name="Node3D2" type="Node3D" parent="Mid/Room1/Bots/Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, 7.5)
+
+[node name="Node3D3" type="Node3D" parent="Mid/Room1/Bots/Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -7.5)
+
+[node name="Node3D4" type="Node3D" parent="Mid/Room1/Bots/Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, -7.5)
+
+[node name="Roams" type="Node3D" parent="Mid/Room1/Bots"]
+
+[node name="Node3D" type="Node3D" parent="Mid/Room1/Bots/Roams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, 7.5)
+
+[node name="Node3D2" type="Node3D" parent="Mid/Room1/Bots/Roams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, 7.5)
+
+[node name="Node3D3" type="Node3D" parent="Mid/Room1/Bots/Roams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -7.5)
+
+[node name="Node3D4" type="Node3D" parent="Mid/Room1/Bots/Roams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, -7.5)
+
 [node name="Room2" type="Node3D" parent="Mid"]
 visible = false
 script = ExtResource("1_iybol")

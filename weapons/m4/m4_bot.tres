@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3 uid="uid://chlgn4iyvsp6o"]
+
+[ext_resource type="ArrayMesh" uid="uid://ck3bq0pwfhnvm" path="res://weapons/m4/m4_bot_mesh.res" id="1_i7s2t"]
+[ext_resource type="Script" path="res://resources/MeshTransform3D.cs" id="2_8qp2r"]
+[ext_resource type="Script" path="res://resources/Weapon.cs" id="4_tqkdl"]
+
+[sub_resource type="Resource" id="Resource_ti36x"]
+script = ExtResource("2_8qp2r")
+Mesh = ExtResource("1_i7s2t")
+Position = Vector3(0, 0, 0)
+Rotation = Vector3(0, 0, 0)
+Scale = Vector3(1, 1, 1)
+
+[resource]
+script = ExtResource("4_tqkdl")
+Name = ""
+Position = Vector3(-4.81022, -16.1493, 38.5293)
+Rotation = Vector3(-65, 0, -100)
+MuzzlePosition = Vector3(-41.7453, 6.27469, 61.6342)
+MeshList = [SubResource("Resource_ti36x")]
+Size = Vector3(1, 1, 1)
+Damage = 15.0
+FireRate = 900
+Automatic = true
+MagazineSize = 30
+MaxAmmo = 120
+Recoil = 4.0

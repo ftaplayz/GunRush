@@ -29,13 +29,14 @@ public partial class WeaponController : Node3D
 	[Export] public int Magazine {get; set;}
 	[Export] public int Ammo {get; set;}
 	[Export] public int FiredBullets {get; set;}
+	[Export] public RayCast3D WeaponRaycast;
 	private bool _fireCooldown = false;
 	private float _msBetweenShot;
 	private bool _firing = false;
 	private bool _ready = false;
 	private Node3D _weaponNode;
 	private List<MeshInstance3D> _loadedMeshList = new List<MeshInstance3D>();
-	private RayCast3D _ray;
+	
 	private AnimationPlayer _animationPlayer;
 	private AnimationLibrary _animationLibrary;
 	private Node3D _muzzle;
@@ -46,8 +47,8 @@ public partial class WeaponController : Node3D
 	public override void _Ready()
 	{
 		this._ready = true;
-		this._camera = this.GetParent<CustomCamera>();
-		this._ray = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
+		this._camera = this.GetParentOrNull<CustomCamera>();
+		this.WeaponRaycast = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
 		this._GetEssentialNodes();
 		this._muzzleFlash = this._muzzle.GetNode<GpuParticles3D>("GPUParticles3D");
 		this._InitWeapon();
@@ -103,6 +104,7 @@ public partial class WeaponController : Node3D
 		// 120 - 3 = 117
 		this.Ammo -= bulletsToReload;
 		this.Magazine = bulletsToReload;
+		
 		return bulletsToReload;
 	}
 
@@ -150,10 +152,10 @@ public partial class WeaponController : Node3D
 			this._animationPlayer.Play(this._animationLibraryName+"/Shoot");
 		}		
 		this._muzzleFlash.Emitting = true;
-		this._ray.ForceRaycastUpdate();
-		if(this._ray.IsColliding())
-			this._OnHit(this._ray.GetCollider() as Node3D);
-		this._camera.RotateX(this.Weapon.Recoil);
+		this.WeaponRaycast.ForceRaycastUpdate();
+		if(this.WeaponRaycast.IsColliding())
+			this._OnHit(this.WeaponRaycast.GetCollider() as Node3D);
+		if(this._camera!= null)this._camera.RotateX(this.Weapon.Recoil);
 		this.FiredBullets++;
 		this.Magazine--;
 		this._fireCooldown = true;
