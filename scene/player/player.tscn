@@ -26,7 +26,6 @@ script = ExtResource("2_8yv4o")
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" node_paths=PackedStringArray("WeaponRaycast") instance=ExtResource("3_j3vjc")]
-transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.444, -0.233, -0.265)
 Weapon = ExtResource("3_3n1sj")
 WeaponRaycast = NodePath("../AimRay")
 
@@ -81,3 +80,5 @@ width = 2.0
 [node name="Bottom" type="Line2D" parent="Crosshair/CenterContainer"]
 points = PackedVector2Array(0, 5, 0, 15)
 width = 2.0
+
+[connection signal="animation_finished" from="CameraRoot/Weapon/@Node3D@53263/AnimationPlayer" to="CameraRoot/Weapon" method="_on_animation_player_animation_finished"]

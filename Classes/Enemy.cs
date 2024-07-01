@@ -28,13 +28,13 @@ public partial class Enemy : Humanoid
 
 	private void _GetCollisionShapes(Node3D instance)
 	{
-			foreach (var child in instance.GetChildren())
-			{
-				if(child is CollisionShape3D)
-					this._collisions.Add(child as CollisionShape3D);
-				if(child.GetChildCount() > 0)
-					this._GetCollisionShapes(child as Node3D);
-			}
+		foreach (var child in instance.GetChildren())
+		{
+			if(child is CollisionShape3D)
+				this._collisions.Add(child as CollisionShape3D);
+			if(child.GetChildCount() > 0)
+				this._GetCollisionShapes(child as Node3D);
+		}
 	}
 
 	public void SetRandom(Random random)
@@ -44,14 +44,15 @@ public partial class Enemy : Humanoid
 
 	private void _UpdateAnimationTree()
 	{
-		
+		var shooting = this._hasTarget || this.ShootTest;
+		var moving = false;
 		this._SetCondition("die", this.Health <= 0);
 		this._SetCondition("shoot", this._hasTarget || this.ShootTest);
 		if(!this._hasTarget && !this.ShootTest){
-			var moving = this.Velocity != Vector3.Zero || this.WalkTest;
-			this._SetCondition("idle", !moving);
+			moving = this.Velocity != Vector3.Zero || this.WalkTest;
 			this._SetCondition("walk", moving);
 		}
+		this._SetCondition("idle", !shooting && !moving);
 		
 	}
 

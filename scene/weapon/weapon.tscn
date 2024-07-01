@@ -1,14 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://2m640fvers00"]
+[gd_scene load_steps=10 format=3 uid="uid://2m640fvers00"]
 
 [ext_resource type="Script" path="res://Classes/WeaponController.cs" id="1_2h82h"]
 [ext_resource type="Animation" uid="uid://hl1v8cscko3i" path="res://weapons/m4/m4_shoot.res" id="2_dh5n0"]
+[ext_resource type="Animation" uid="uid://cs6xl8p4g8513" path="res://weapons/m4/m4_reload.res" id="3_27p8x"]
 [ext_resource type="Texture2D" uid="uid://crqjom7122jrn" path="res://weapons/Muzzle_flash_VFX_3.png" id="3_hmgbq"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bfvg5"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jilcd"]
 _data = {
-"Shoot": ExtResource("2_dh5n0"),
+"m4_reload": ExtResource("3_27p8x"),
 "m4_shoot": ExtResource("2_dh5n0")
 }
 
@@ -37,10 +38,8 @@ material = SubResource("StandardMaterial3D_6xew2")
 size = Vector2(0.2, 0.2)
 
 [node name="Weapon" type="Node3D" groups=["weapon"]]
-transform = Transform3D(-0.173648, 0.984808, 0, -0.416198, -0.0733869, 0.906308, 0.892539, 0.157379, 0.422618, -4.81022, -16.1493, 38.5293)
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 script = ExtResource("1_2h82h")
-Magazine = 30
-Ammo = 120
 
 [node name="InnerWeapon" type="Node3D" parent="."]
 
@@ -52,7 +51,7 @@ libraries = {
 }
 
 [node name="Muzzle" type="Node3D" parent="InnerWeapon"]
-transform = Transform3D(1, 0, 1.19209e-07, -1.49012e-08, 1, -5.96046e-08, -1.78814e-07, 0, 1, -41.7453, 6.27469, 61.6342)
+transform = Transform3D(1, 0, 1.19209e-07, -1.49012e-08, 1, -5.96046e-08, -1.78814e-07, 0, 1, 0, 0, 0)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="InnerWeapon/Muzzle"]
 transform = Transform3D(1, 0, 1.42109e-13, 0, 1, 0, -1.42109e-13, 0, 1, 0, 0, 0)
@@ -61,3 +60,7 @@ lifetime = 0.01
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_f0kb4")
 draw_pass_1 = SubResource("QuadMesh_8becj")
+
+[connection signal="animation_finished" from="InnerWeapon/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="InnerWeapon/@AnimationPlayer@20957" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="@Node3D@21342/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

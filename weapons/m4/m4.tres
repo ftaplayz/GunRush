@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=6 format=3 uid="uid://bj3aghrxpian4"]
+[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3 uid="uid://bj3aghrxpian4"]
 
 [ext_resource type="ArrayMesh" uid="uid://cy0t5wmt7jejg" path="res://weapons/m4/m4_mesh.tres" id="1_xyyo8"]
 [ext_resource type="Script" path="res://resources/Weapon.cs" id="2_6aasv"]
 [ext_resource type="Script" path="res://resources/MeshTransform3D.cs" id="2_g8hab"]
 [ext_resource type="Animation" uid="uid://hl1v8cscko3i" path="res://weapons/m4/m4_shoot.res" id="3_nm0a6"]
+[ext_resource type="Animation" uid="uid://cs6xl8p4g8513" path="res://weapons/m4/m4_reload.res" id="3_wjxdm"]
 
 [sub_resource type="Resource" id="Resource_t4uqj"]
 script = ExtResource("2_g8hab")
@@ -21,6 +22,7 @@ MuzzlePosition = Vector3(-5.72205e-06, 7.80287, 65.2001)
 MeshList = [SubResource("Resource_t4uqj")]
 Size = Vector3(0.015, 0.015, 0.015)
 ShootAnimation = ExtResource("3_nm0a6")
+ReloadAnimation = ExtResource("3_wjxdm")
 Damage = 15.0
 FireRate = 900
 Automatic = true

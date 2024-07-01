@@ -29,10 +29,11 @@ public partial class WeaponController : Node3D
 	[Export] public int Magazine {get; set;}
 	[Export] public int Ammo {get; set;}
 	[Export] public int FiredBullets {get; set;}
-	[Export] public RayCast3D WeaponRaycast;
+	[Export] public RayCast3D WeaponRaycast { get; set; }
 	private bool _fireCooldown = false;
 	private float _msBetweenShot;
 	private bool _firing = false;
+	private bool _reloading = false;
 	private bool _ready = false;
 	private Node3D _weaponNode;
 	private List<MeshInstance3D> _loadedMeshList = new List<MeshInstance3D>();
@@ -48,7 +49,7 @@ public partial class WeaponController : Node3D
 	{
 		this._ready = true;
 		this._camera = this.GetParentOrNull<CustomCamera>();
-		this.WeaponRaycast = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
+		//this.WeaponRaycast = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
 		this._GetEssentialNodes();
 		this._muzzleFlash = this._muzzle.GetNode<GpuParticles3D>("GPUParticles3D");
 		this._InitWeapon();
@@ -63,6 +64,7 @@ public partial class WeaponController : Node3D
 	}
 
 	private void _InitWeapon(){
+		GD.Print("Weapon init");
 		this._ClearWeapon();
 		this._LoadWeapon();
 	}
@@ -92,23 +94,36 @@ public partial class WeaponController : Node3D
 		if(this._ready){
 			GD.Print("Adding Animations");
 			if(this.Weapon.ShootAnimation != null)
+			{
 				this._animationLibrary.AddAnimation("Shoot", this.Weapon.ShootAnimation);
+				GD.Print("Added shoot animation");
+			}
 			if(this.Weapon.ReloadAnimation != null)
+			{
 				this._animationLibrary.AddAnimation("Reload", this.Weapon.ReloadAnimation);
+				GD.Print("Added reload animation");
+			}
 		}
-		
 	}
 
-	public int OnReload(){
-		var bulletsToReload = Mathf.Clamp(this.Ammo-(this.Weapon.MagazineSize-this.Magazine), 0, this.Weapon.MagazineSize);
-		// 120 - 3 = 117
+	public int Reload(){
+		if(this.Magazine == this.Weapon.MagazineSize || this.Ammo == 0 || this._reloading) return 0;
+		this._reloading = true;
+		var bulletsToReload = Mathf.Clamp(this.Weapon.MagazineSize-this.Magazine, 0, this.Ammo);
 		this.Ammo -= bulletsToReload;
-		this.Magazine = bulletsToReload;
+		this.Magazine += bulletsToReload;
+		GD.Print("Reloading", bulletsToReload, "bullet(s)");
+		if(!this._animationLibrary.HasAnimation("Reload")){
+			GD.Print("No Reload Animation");
+			this._reloading = false;
+		}else
+			this._animationPlayer.Play(this._animationLibraryName+"/Reload");
 		
 		return bulletsToReload;
 	}
 
 	private void _ClearWeapon(){
+		GD.Print("Clearing my weapon");
 		if(this._loadedMeshList.Count > 0){
 			foreach(MeshInstance3D mesh in this._loadedMeshList){
 				GD.Print(mesh);
@@ -117,6 +132,7 @@ public partial class WeaponController : Node3D
 			this._loadedMeshList.Clear();
 		}
 		if(this._animationPlayer != null && this._animationLibrary != null){
+			GD.Print("Clearing animations");
 			if(this._animationLibrary.HasAnimation("Shoot"))
 				this._animationLibrary.RemoveAnimation("Shoot");
 			if(this._animationLibrary.HasAnimation("Reload"))
@@ -133,6 +149,8 @@ public partial class WeaponController : Node3D
 		this._weaponNode.AddChild(newMesh);
 		this._loadedMeshList.Add(newMesh);
 	}
+
+	
 	public void Fire(bool firing)
 	{	
 		if(this._weapon == null) return;
@@ -143,9 +161,11 @@ public partial class WeaponController : Node3D
 
 	private async void _Fire(){
 		GD.Print("Trying to fire");	
-		if(this.Weapon == null || this.Magazine <= 0 || !this._firing || this._fireCooldown)
+		if(this.Weapon == null || this.Magazine <= 0 || !this._firing || this._fireCooldown || this._reloading)
 			return;
 		GD.Print("Firing");
+		
+		//this._animationPlayer.Play(this._animationLibraryName + "/Shoot");
 		if(this._animationLibrary.HasAnimation("Shoot")){
 			GD.Print("Has Animation");
 			this._animationPlayer.Stop();
@@ -175,5 +195,12 @@ public partial class WeaponController : Node3D
 			var damageController = node as DamageController;
 			damageController.TakeDamage(this.Weapon.Damage);
 		}
+	}
+	private void _on_animation_player_animation_finished(StringName animationName)
+	{
+		GD.Print(animationName);
+		if(animationName.Equals(this._animationLibraryName+"/Reload") && this._reloading)
+			this._reloading = false;
+		
 	}
 }

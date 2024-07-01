@@ -4,13 +4,14 @@ namespace GunRush.Classes;
 
 public partial class Player : Humanoid
 {
-	[Export] public float Sensitivity = 0.5f;
+	
 	[Export] public int State = 0;
 	public static int StateIdle = 0;
 	public static int StateWalking = 1;
 	public static int StateJumping = 2;
 	public static int StateCrouching = 3;
 	public static int StateFalling = 4;
+	private float _sensitivity = 0.5f;
 	private CustomCamera _camera;
 	private WeaponController _weapon;
 	private RayCast3D _raycastStand;
@@ -26,7 +27,9 @@ public partial class Player : Humanoid
 	
 	public override void _Ready()
 	{
-		GD.Print(this.GetNode<Global>("/root/Global").Difficulty);
+		var global = this.GetNode<Global>("/root/Global");
+		//GD.Print(this.GetNode<Global>("/root/Global").Difficulty);
+		this._sensitivity = global.Sensitivity;
 		this._camera = GetNode<CustomCamera>("CameraRoot");
 		this._weapon = _camera.GetNode<WeaponController>("Weapon");
 		this._raycastStand = GetNode<RayCast3D>("StandingRaycast");
@@ -39,8 +42,8 @@ public partial class Player : Humanoid
 	{
 		if (@event is InputEventMouseMotion mouseMotion)
 		{
-			this.RotateY(Mathf.DegToRad(-mouseMotion.Relative.X * Sensitivity));
-			this._camera.RotateX(-mouseMotion.Relative.Y * Sensitivity);
+			this.RotateY(Mathf.DegToRad(-mouseMotion.Relative.X * _sensitivity));
+			this._camera.RotateX(-mouseMotion.Relative.Y * _sensitivity);
 		}
 	}
 
@@ -52,6 +55,8 @@ public partial class Player : Humanoid
 			this._weapon.Fire(true);
 		if(Input.IsActionJustReleased("fire"))
 			this._weapon.Fire(false);
+		if (Input.IsActionJustPressed("reload"))
+			this._weapon.Reload();
 		if (Input.IsActionJustPressed("crouch"))
 		{
 			this._Crouch(true, this._crouchingCollission, this._standingCollision);
@@ -67,11 +72,7 @@ public partial class Player : Humanoid
 
 	public override void _Process(double delta)
 	{
-		if (this._scheduledStand && !this._raycastStand.IsColliding())
-		{
-			this._scheduledStand = false;
-			this._Crouch(false, this._standingCollision, this._crouchingCollission);
-		}
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -97,7 +98,11 @@ public partial class Player : Humanoid
 				velocity.Y = -(this.Gravity * Mathf.Pow(this._fallTime, 2));
 			}
 		}
-		
+		if (this._scheduledStand && !this._raycastStand.IsColliding())
+		{
+			this._scheduledStand = false;
+			this._Crouch(false, this._standingCollision, this._crouchingCollission);
+		}
 		if (Input.IsActionJustPressed("jump") && this.IsOnFloor())
 		{
 			this._Jump(ref velocity);
