@@ -55,7 +55,7 @@ visible = false
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("../Rooms")
 Length = 9
-Spawn = NodePath("Room1/Spawn")
+Spawn = NodePath("@Node3D@20672/Spawn")
 Seed = 7
 Enemy = NodePath("../enemy")
 
@@ -65,3 +65,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 7.91066)
 [connection signal="body_entered" from="Dungeon/@Node3D@17559/Area3D" to="Dungeon/@Node3D@17559" method="_EnterDungeon"]
 [connection signal="body_entered" from="Dungeon/@Node3D@17560/Area3D" to="Dungeon/@Node3D@17560" method="_EnterDungeon"]
 [connection signal="body_entered" from="Dungeon/@Node3D@17562/Area3D" to="Dungeon/@Node3D@17562" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@18324/Area3D" to="Dungeon/@Node3D@18324" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@18325/Area3D" to="Dungeon/@Node3D@18325" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@18327/Area3D" to="Dungeon/@Node3D@18327" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@20674/Area3D" to="Dungeon/@Node3D@20674" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@20675/Area3D" to="Dungeon/@Node3D@20675" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@20677/Area3D" to="Dungeon/@Node3D@20677" method="_EnterDungeon"]
