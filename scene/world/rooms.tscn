@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://can2pjy00sav"]
+[gd_scene load_steps=16 format=3 uid="uid://can2pjy00sav"]
 
 [ext_resource type="Script" path="res://Classes/Dungeon.cs" id="1_iybol"]
 
@@ -30,6 +30,9 @@ size = Vector3(6, 5, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_aeja3"]
 size = Vector3(6, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_defdm"]
+size = Vector3(20, 10, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_btprr"]
 size = Vector3(50, 1, 50)
@@ -229,6 +232,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -7.5)
 
 [node name="Node3D4" type="Node3D" parent="Mid/Room1/Bots/Roams"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, -7.5)
+
+[node name="Area3D" type="Area3D" parent="Mid/Room1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mid/Room1/Area3D"]
+shape = SubResource("BoxShape3D_defdm")
 
 [node name="Room2" type="Node3D" parent="Mid"]
 visible = false
@@ -506,3 +515,5 @@ text = "SAIDA"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40)
 pixel_size = 1.0
 text = "ENTRADA"
+
+[connection signal="body_entered" from="Mid/Room1/Area3D" to="Mid/Room1" method="_EnterDungeon"]
