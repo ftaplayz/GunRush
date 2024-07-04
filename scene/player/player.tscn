@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvmpevbb3gm3"]
+[gd_scene load_steps=9 format=3 uid="uid://cvmpevbb3gm3"]
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
 [ext_resource type="Script" path="res://Classes/CustomCamera.cs" id="2_8yv4o"]
 [ext_resource type="Resource" uid="uid://bj3aghrxpian4" path="res://weapons/m4/m4.tres" id="3_3n1sj"]
 [ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/weapon/weapon.tscn" id="3_j3vjc"]
+[ext_resource type="Script" path="res://Classes/Crosshair.cs" id="5_t1bb5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -26,7 +27,10 @@ script = ExtResource("2_8yv4o")
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
 [node name="Weapon" parent="CameraRoot" node_paths=PackedStringArray("WeaponRaycast") instance=ExtResource("3_j3vjc")]
+transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.444, -0.233, -0.265)
 Weapon = ExtResource("3_3n1sj")
+Magazine = 30
+Ammo = 120
 WeaponRaycast = NodePath("../AimRay")
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
@@ -64,6 +68,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("5_t1bb5")
 
 [node name="Top" type="Line2D" parent="Crosshair/CenterContainer"]
 points = PackedVector2Array(0, -5, 0, -15)
@@ -80,5 +85,3 @@ width = 2.0
 [node name="Bottom" type="Line2D" parent="Crosshair/CenterContainer"]
 points = PackedVector2Array(0, 5, 0, 15)
 width = 2.0
-
-[connection signal="animation_finished" from="CameraRoot/Weapon/@Node3D@53263/AnimationPlayer" to="CameraRoot/Weapon" method="_on_animation_player_animation_finished"]
