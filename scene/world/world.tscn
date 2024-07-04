@@ -55,9 +55,13 @@ visible = false
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("../Rooms")
 Length = 9
-Spawn = NodePath("@Node3D@66795/Spawn")
+Spawn = NodePath("Room1/Spawn")
 Seed = 7
 Enemy = NodePath("../enemy")
 
 [node name="enemy" parent="." instance=ExtResource("4_aoo1x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 7.91066)
+
+[connection signal="body_entered" from="Dungeon/@Node3D@17559/Area3D" to="Dungeon/@Node3D@17559" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@17560/Area3D" to="Dungeon/@Node3D@17560" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@17562/Area3D" to="Dungeon/@Node3D@17562" method="_EnterDungeon"]
