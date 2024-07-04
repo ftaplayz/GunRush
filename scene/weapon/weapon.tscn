@@ -62,5 +62,3 @@ process_material = SubResource("ParticleProcessMaterial_f0kb4")
 draw_pass_1 = SubResource("QuadMesh_8becj")
 
 [connection signal="animation_finished" from="InnerWeapon/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="animation_finished" from="InnerWeapon/@AnimationPlayer@20957" to="." method="_on_animation_player_animation_finished"]
-[connection signal="animation_finished" from="@Node3D@21342/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

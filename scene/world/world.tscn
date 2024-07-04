@@ -55,7 +55,7 @@ visible = false
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("../Rooms")
 Length = 3
-Spawn = NodePath("Room1/Spawn")
+Spawn = NodePath("@Node3D@50362/Spawn")
 Seed = 14
 Enemy = NodePath("../enemy")
 
