@@ -10,12 +10,16 @@ public partial class Enemy : Humanoid
 	public List<Node3D> Roams { get; set; } = new List<Node3D>();
 	private AnimationTree _animationTree;
 	public List<CollisionShape3D> Collisions = new List<CollisionShape3D>();
+	public int HitChance { get; set; } = 50;
+	public WeaponController WeaponController { get; set; }
 	private Random _random = new Random();
 	private EnemyStateMachine _stateMachine;
 	
 	public override void _Ready()
 	{
 		this._stateMachine = new EnemyStateMachine(this);
+		this.WeaponController = this.GetNode<WeaponController>("Armature/Skeleton3D/RightHand/Weapon");
+		this.WeaponController.AutoReload = true;
 		this._animationTree = this.GetNode<AnimationTree>("AnimationTree");
 		this._GetCollisionShapes(this);
 		this._stateMachine.TransitionTo(this._stateMachine.Idle);
@@ -87,6 +91,11 @@ public partial class Enemy : Humanoid
 	{
 		this.TargetPlayer = player;
 		this._stateMachine.TransitionTo(this._stateMachine.Shooting);
+	}
+
+	public void OutOfAmmo()
+	{
+		this._stateMachine.TransitionTo(this._stateMachine.Die);
 	}
 
 }

@@ -30,6 +30,7 @@ public partial class WeaponController : Node3D
 	[Export] public int Ammo {get; set;}
 	[Export] public int FiredBullets {get; set;}
 	[Export] public RayCast3D WeaponRaycast { get; set; }
+	public bool AutoReload { get; set; } = false;
 	private bool _fireCooldown = false;
 	private float _msBetweenShot;
 	private bool _firing = false;
@@ -37,7 +38,7 @@ public partial class WeaponController : Node3D
 	private bool _ready = false;
 	private Node3D _weaponNode;
 	private List<MeshInstance3D> _loadedMeshList = new List<MeshInstance3D>();
-	
+	private Random _random;
 	private AnimationPlayer _animationPlayer;
 	private AnimationLibrary _animationLibrary;
 	private Node3D _muzzle;
@@ -53,7 +54,8 @@ public partial class WeaponController : Node3D
 		this._GetEssentialNodes();
 		this._muzzleFlash = this._muzzle.GetNode<GpuParticles3D>("GPUParticles3D");
 		this._InitWeapon();
-		
+		this._random = new Random();
+
 	}
 
 	private void _GetEssentialNodes(){
@@ -83,8 +85,9 @@ public partial class WeaponController : Node3D
 		this._muzzle.Position = this.Weapon.MuzzlePosition;
 
 		// Weapon Meshes
-		foreach(MeshTransform3D mesh in Weapon.MeshList)
-			this._AddMeshTransform(mesh);
+		if(Weapon.MeshList != null && Weapon.MeshList.Length > 0)
+			foreach(MeshTransform3D mesh in Weapon.MeshList)
+				this._AddMeshTransform(mesh);
 
 		// Weapon Privates
 		this._msBetweenShot = 1000.0f/(this.Weapon.FireRate/60.0f);
@@ -118,7 +121,8 @@ public partial class WeaponController : Node3D
 			this._reloading = false;
 		}else
 			this._animationPlayer.Play(this._animationLibraryName+"/Reload");
-		
+		if(this.AutoReload && this._firing)
+			this._Fire();
 		return bulletsToReload;
 	}
 
@@ -160,9 +164,22 @@ public partial class WeaponController : Node3D
 	}
 
 	private async void _Fire(){
-		GD.Print("Trying to fire");	
-		if(this.Weapon == null || this.Magazine <= 0 || !this._firing || this._fireCooldown || this._reloading)
+		GD.Print("Trying to fire");
+		
+		if(this.Weapon == null || (this.Magazine <= 0 && !this.AutoReload) || !this._firing || this._fireCooldown || this._reloading)
 			return;
+		if(this.AutoReload && this.Magazine <= 0)
+		{
+			if (this.Ammo == 0)
+			{
+				if(this.Owner is Enemy)
+					((Enemy)this.Owner).OutOfAmmo();
+				GD.Print("Out of ammo");
+			}
+			else
+				this.Reload();
+			return;
+		}
 		GD.Print("Firing");
 		
 		//this._animationPlayer.Play(this._animationLibraryName + "/Shoot");
@@ -172,6 +189,25 @@ public partial class WeaponController : Node3D
 			this._animationPlayer.Play(this._animationLibraryName+"/Shoot");
 		}		
 		this._muzzleFlash.Emitting = true;
+		if (this.Owner is Enemy && ((Enemy)this.Owner).TargetPlayer != null)
+		{
+			
+			var enemy = this.Owner as Enemy;
+			var rand = this._random.Next(0, Mathf.CeilToInt(100 / enemy.HitChance) + 1);
+			//GD.Print(enemy.TargetPlayer.GlobalPosition);
+			//GD.Print(enemy.TargetPlayer.GlobalPosition - this.GlobalPosition);
+			//GD.Print(this.WeaponRaycast.ToLocal(enemy.TargetPlayer.GlobalPosition));
+			if (rand == 1)
+			{
+				GD.Print("Shooting towards player!");
+				this.WeaponRaycast.TargetPosition = this.WeaponRaycast.ToLocal(enemy.TargetPlayer.GlobalPosition);
+			}
+			else
+			{
+				var randOffset = 1000;
+				this.WeaponRaycast.TargetPosition = new Vector3(this._random.Next(-randOffset, randOffset), this._random.Next(-randOffset, randOffset), this._random.Next(-randOffset, randOffset));
+			}
+		}
 		this.WeaponRaycast.ForceRaycastUpdate();
 		if(this.WeaponRaycast.IsColliding())
 			this._OnHit(this.WeaponRaycast.GetCollider() as Node3D);
@@ -195,12 +231,22 @@ public partial class WeaponController : Node3D
 			var damageController = node as DamageController;
 			damageController.TakeDamage(this.Weapon.Damage);
 		}
+
+		if (node.IsInGroup("player") && node is Player)
+		{
+			var player = node as Player;
+			player.TakeDamage(this._weapon.Damage);
+		}
 	}
 	private void _on_animation_player_animation_finished(StringName animationName)
 	{
 		GD.Print(animationName);
 		if(animationName.Equals(this._animationLibraryName+"/Reload") && this._reloading)
+		{
 			this._reloading = false;
+			if(this.AutoReload && this._firing)
+				this._Fire();
+		}
 		
 	}
 }

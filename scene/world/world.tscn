@@ -54,10 +54,62 @@ visible = false
 [node name="Dungeon" type="Node3D" parent="." node_paths=PackedStringArray("Rooms", "Spawn", "Enemy")]
 script = ExtResource("1_j6pl2")
 Rooms = NodePath("../Rooms")
-Length = 3
-Spawn = NodePath("@Node3D@50362/Spawn")
-Seed = 14
+Length = 12
+Spawn = NodePath("@Node3D@38651/Spawn")
+Seed = 15
 Enemy = NodePath("../enemy")
 
 [node name="enemy" parent="." instance=ExtResource("4_aoo1x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286705, 0.5, 7.91066)
+
+[connection signal="body_entered" from="Dungeon/@Node3D@26343/Area3D" to="Dungeon/@Node3D@26343" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@26351/Area3D" to="Dungeon/@Node3D@26351" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@26352/Area3D" to="Dungeon/@Node3D@26352" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@27642/Area3D" to="Dungeon/@Node3D@27642" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@27649/Area3D" to="Dungeon/@Node3D@27649" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@27650/Area3D" to="Dungeon/@Node3D@27650" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29650/Area3D" to="Dungeon/@Node3D@29650" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29658/Area3D" to="Dungeon/@Node3D@29658" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29659/Area3D" to="Dungeon/@Node3D@29659" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29726/Area3D" to="Dungeon/@Node3D@29726" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29734/Area3D" to="Dungeon/@Node3D@29734" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29735/Area3D" to="Dungeon/@Node3D@29735" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29797/Area3D" to="Dungeon/@Node3D@29797" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29805/Area3D" to="Dungeon/@Node3D@29805" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@29806/Area3D" to="Dungeon/@Node3D@29806" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@33636/Area3D" to="Dungeon/@Node3D@33636" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@33644/Area3D" to="Dungeon/@Node3D@33644" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@33645/Area3D" to="Dungeon/@Node3D@33645" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@35522/Area3D" to="Dungeon/@Node3D@35522" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@35530/Area3D" to="Dungeon/@Node3D@35530" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@35531/Area3D" to="Dungeon/@Node3D@35531" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@36167/Area3D" to="Dungeon/@Node3D@36167" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@36175/Area3D" to="Dungeon/@Node3D@36175" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@36176/Area3D" to="Dungeon/@Node3D@36176" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37012/Area3D" to="Dungeon/@Node3D@37012" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37020/Area3D" to="Dungeon/@Node3D@37020" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37021/Area3D" to="Dungeon/@Node3D@37021" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37410/Area3D" to="Dungeon/@Node3D@37410" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37418/Area3D" to="Dungeon/@Node3D@37418" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37419/Area3D" to="Dungeon/@Node3D@37419" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37472/Area3D" to="Dungeon/@Node3D@37472" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37480/Area3D" to="Dungeon/@Node3D@37480" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37481/Area3D" to="Dungeon/@Node3D@37481" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37530/Area3D" to="Dungeon/@Node3D@37530" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37538/Area3D" to="Dungeon/@Node3D@37538" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37539/Area3D" to="Dungeon/@Node3D@37539" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37600/Area3D" to="Dungeon/@Node3D@37600" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37608/Area3D" to="Dungeon/@Node3D@37608" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37609/Area3D" to="Dungeon/@Node3D@37609" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37676/Area3D" to="Dungeon/@Node3D@37676" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37684/Area3D" to="Dungeon/@Node3D@37684" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@37685/Area3D" to="Dungeon/@Node3D@37685" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38046/Area3D" to="Dungeon/@Node3D@38046" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38054/Area3D" to="Dungeon/@Node3D@38054" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38055/Area3D" to="Dungeon/@Node3D@38055" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38352/Area3D" to="Dungeon/@Node3D@38352" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38360/Area3D" to="Dungeon/@Node3D@38360" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38361/Area3D" to="Dungeon/@Node3D@38361" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38652/Area3D" to="Dungeon/@Node3D@38652" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38660/Area3D" to="Dungeon/@Node3D@38660" method="_EnterDungeon"]
+[connection signal="body_entered" from="Dungeon/@Node3D@38661/Area3D" to="Dungeon/@Node3D@38661" method="_EnterDungeon"]
