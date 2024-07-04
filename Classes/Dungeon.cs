@@ -14,6 +14,8 @@ public partial class Dungeon : Node3D
 	*/
 	public List<Node3D> Spawns { get; set; } = new List<Node3D>();
 	public List<Node3D> Roams { get; set; } = new List<Node3D>();
+	public List<Enemy> Enemies { get; set; } = new List<Enemy>();
+	public Area3D Area3D { get; set; }
 	private Aabb aabb;
 	public override void _Ready()
 	{
@@ -55,4 +57,18 @@ public partial class Dungeon : Node3D
 				this._GetAabb(member as Node3D);
 		}
 	}
+	
+	private void _EnterDungeon(Node3D body)
+	{
+		if (body is Player)
+		{
+			GD.Print("Player entered dungeon with ", this.Enemies.Count, " enemies");
+			foreach (var enemy in this.Enemies)
+			{
+				GD.Print("Triggered enemy ",enemy.Name);
+				enemy.Aggro(body as Player);
+			}
+		}
+	}
 }
+

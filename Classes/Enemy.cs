@@ -6,7 +6,7 @@ namespace GunRush.Classes;
 
 public partial class Enemy : Humanoid
 {
-	private Player _enemy ;
+	public Player TargetPlayer { get; set; }
 	public List<Node3D> Roams { get; set; } = new List<Node3D>();
 	private AnimationTree _animationTree;
 	public List<CollisionShape3D> Collisions = new List<CollisionShape3D>();
@@ -69,7 +69,13 @@ public partial class Enemy : Humanoid
 	{
 		GD.Print("I am dead");
 	}*/
-	
+
+	public override void _PhysicsProcess(double delta)
+	{
+		if(this.TargetPlayer != null && this._stateMachine.CurrentState != this._stateMachine.Die)
+			this.LookAt(new Vector3(this.TargetPlayer.GlobalPosition.X, this.GlobalPosition.Y, this.TargetPlayer.GlobalPosition.Z), Vector3.Up);
+	}
+
 	private void _on_area_3d_damage_taken(double damage)
 	{
 		this.Health -= (float)damage;
@@ -79,7 +85,7 @@ public partial class Enemy : Humanoid
 
 	public void Aggro(Player player)
 	{
-		this._enemy = player;
+		this.TargetPlayer = player;
 		this._stateMachine.TransitionTo(this._stateMachine.Shooting);
 	}
 

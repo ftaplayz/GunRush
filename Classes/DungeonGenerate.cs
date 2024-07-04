@@ -119,7 +119,7 @@ public partial class DungeonGenerate : Node3D
 			}*/
 			room.Visible = true;
 			this.AddChild(room);
-			if (this._CheckEnemy())
+			if (i != 1 && this._CheckEnemy())
 			{
 				GD.Print("Has enemy");
 				this._enemy.Roams = room.Roams;
@@ -135,6 +135,7 @@ public partial class DungeonGenerate : Node3D
 						var enemy = _enemy.Duplicate() as Enemy;
 						enemy.Position = spawn.Position;
 						enemy.Visible = true;
+						room.Enemies.Add(enemy);
 						room.AddChild(enemy);
 					}
 				}
@@ -161,6 +162,9 @@ public partial class DungeonGenerate : Node3D
 	{
 		return room.GetNodeOrNull<Node3D>("Door") == null ? ROOM_MID : ROOM_START_END;
 	}
+
+	
+	
 	
 	public void Generate()
 	{
