@@ -34,8 +34,8 @@ public partial class Pause : Control
 		this._player.GetNode<Control>("Crosshair").Visible = !pause;
 		this._player.GetNode<Control>("KillsCounter").Visible = !pause;
 		this._player.GetNode<Control>("Health").Visible = !pause;
-		this._player.GetNode<Control>("Health").Visible = !pause;
-		this._player.GetNode<Control>("Ammo").Visible = pause;
+		this._player.GetNode<Control>("Ammo").Visible = !pause;
+		this._player.GetNode<Control>("pause").Visible = pause;
 		Input.MouseMode = pause ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
 		GetTree().Paused = pause;
 	}

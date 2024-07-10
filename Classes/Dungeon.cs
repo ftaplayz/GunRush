@@ -62,14 +62,23 @@ public partial class Dungeon : Node3D
 	{
 		if (body is Player)
 		{
-			GD.Print("Player entered dungeon with ", this.Enemies.Count, " enemies");
 			foreach (var enemy in this.Enemies)
 			{
 				if(enemy.Health <= 0) continue;
-				GD.Print("Triggered enemy ",enemy.Name);
 				enemy.Aggro(body as Player);
 			}
 		}
 	}
+	
+	private void _ExitDungeon(Node3D body)
+	{
+		if (body is Player)
+		{
+			foreach (var enemy in this.Enemies)
+			{
+				if(enemy.Health <= 0) continue;
+				enemy.Idle();
+			}
+		}
+	}
 }
-

@@ -98,6 +98,11 @@ public partial class Enemy : Humanoid
 		}
 	}
 
+	public void Idle()
+	{
+		this._stateMachine.TransitionTo(this._stateMachine.Idle);
+	}
+
 	public void Aggro(Player player)
 	{
 		this.TargetPlayer = player;
@@ -106,7 +111,7 @@ public partial class Enemy : Humanoid
 
 	public void OutOfAmmo()
 	{
-		this.TakeDamage(1000);
+		this._stateMachine.TransitionTo(this._stateMachine.Idle);
 	}
 
 }

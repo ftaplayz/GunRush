@@ -132,7 +132,7 @@ public partial class DungeonGenerate : Node3D
 			if (i != 1 && this._CheckEnemy())
 			{
 				GD.Print("Has enemy");
-				this._enemy.Roams = room.Roams;
+				//this._enemy.Roams = room.Roams;
 				this._enemy.SetRandom(seedRandom);
 				GD.Print("Trying to spawn enemy");
 				foreach (var spawn in room.Spawns)
