@@ -7,6 +7,9 @@ namespace GunRush.Classes;
 [Tool]
 public partial class WeaponController : Node3D
 {
+	[Signal] public delegate void FiredEventHandler();
+	[Signal] public delegate void ReloadedEventHandler();
+	
 	private Weapon _weapon;
 	[Export] public Weapon Weapon
 	{
@@ -29,7 +32,7 @@ public partial class WeaponController : Node3D
 	[Export] public int Magazine {get; set;}
 	[Export] public int Ammo {get; set;}
 	[Export] public int FiredBullets {get; set;}
-	[Export] public RayCast3D WeaponRaycast { get; set; }
+	public RayCast3D WeaponRaycast { get; set; }
 	public bool AutoReload { get; set; } = false;
 	private bool _fireCooldown = false;
 	private float _msBetweenShot;
@@ -45,12 +48,13 @@ public partial class WeaponController : Node3D
 	private CustomCamera _camera;
 	private GpuParticles3D _muzzleFlash;
 	private string _animationLibraryName = "weapon";
+	private bool _resumeFiring = false;
 	
 	public override void _Ready()
 	{
 		this._ready = true;
 		this._camera = this.GetParentOrNull<CustomCamera>();
-		//this.WeaponRaycast = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
+		this.WeaponRaycast = this.GetParent<Node3D>().GetNode<RayCast3D>("AimRay");
 		this._GetEssentialNodes();
 		this._muzzleFlash = this._muzzle.GetNode<GpuParticles3D>("GPUParticles3D");
 		this._InitWeapon();
@@ -116,6 +120,7 @@ public partial class WeaponController : Node3D
 		this.Ammo -= bulletsToReload;
 		this.Magazine += bulletsToReload;
 		GD.Print("Reloading", bulletsToReload, "bullet(s)");
+		EmitSignal(SignalName.Reloaded);
 		if(!this._animationLibrary.HasAnimation("Reload")){
 			GD.Print("No Reload Animation");
 			this._reloading = false;
@@ -154,7 +159,16 @@ public partial class WeaponController : Node3D
 		this._loadedMeshList.Add(newMesh);
 	}
 
-	
+	public override void _Process(double delta)
+	{
+		if (this._resumeFiring)
+		{
+			this._resumeFiring = false;
+			this._Fire();
+		}
+	}
+
+
 	public void Fire(bool firing)
 	{	
 		if(this._weapon == null) return;
@@ -168,6 +182,11 @@ public partial class WeaponController : Node3D
 		
 		if(this.Weapon == null || (this.Magazine <= 0 && !this.AutoReload) || !this._firing || this._fireCooldown || this._reloading)
 			return;
+		if (GetTree().Paused)
+		{
+			this._resumeFiring = true;
+			return;
+		}
 		if(this.AutoReload && this.Magazine <= 0)
 		{
 			if (this.Ammo == 0)
@@ -181,7 +200,6 @@ public partial class WeaponController : Node3D
 			return;
 		}
 		GD.Print("Firing");
-		
 		//this._animationPlayer.Play(this._animationLibraryName + "/Shoot");
 		if(this._animationLibrary.HasAnimation("Shoot")){
 			GD.Print("Has Animation");
@@ -194,19 +212,18 @@ public partial class WeaponController : Node3D
 			
 			var enemy = this.Owner as Enemy;
 			var rand = this._random.Next(0, Mathf.CeilToInt(100 / enemy.HitChance) + 1);
-			//GD.Print(enemy.TargetPlayer.GlobalPosition);
-			//GD.Print(enemy.TargetPlayer.GlobalPosition - this.GlobalPosition);
-			//GD.Print(this.WeaponRaycast.ToLocal(enemy.TargetPlayer.GlobalPosition));
+			var randOffset = 15;
+			Vector3 pos;
 			if (rand == 1)
 			{
 				GD.Print("Shooting towards player!");
-				this.WeaponRaycast.TargetPosition = this.WeaponRaycast.ToLocal(enemy.TargetPlayer.GlobalPosition);
+				pos= this.WeaponRaycast.ToLocal(enemy.TargetPlayer.GlobalPosition);
 			}
 			else
 			{
-				var randOffset = 1000;
-				this.WeaponRaycast.TargetPosition = new Vector3(this._random.Next(-randOffset, randOffset), this._random.Next(-randOffset, randOffset), this._random.Next(-randOffset, randOffset));
+				pos = new Vector3(this._random.Next(-randOffset, randOffset), this._random.Next(-randOffset, randOffset), this._random.Next(-randOffset, randOffset));
 			}
+			this.WeaponRaycast.TargetPosition = pos;
 		}
 		this.WeaponRaycast.ForceRaycastUpdate();
 		if(this.WeaponRaycast.IsColliding())
@@ -215,6 +232,7 @@ public partial class WeaponController : Node3D
 		this.FiredBullets++;
 		this.Magazine--;
 		this._fireCooldown = true;
+		EmitSignal(SignalName.Fired);
 		await Task.Delay((int)Mathf.Round(this._msBetweenShot));
 		this._fireCooldown = false;
 		this._muzzleFlash.Emitting = false;
@@ -236,6 +254,7 @@ public partial class WeaponController : Node3D
 		{
 			var player = node as Player;
 			player.TakeDamage(this._weapon.Damage);
+			GD.Print("Hit player");
 		}
 	}
 	private void _on_animation_player_animation_finished(StringName animationName)

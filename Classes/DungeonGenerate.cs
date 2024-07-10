@@ -8,10 +8,15 @@ public partial class DungeonGenerate : Node3D
 {
 	private static int ROOM_START_END = 0;
 	private static int ROOM_MID = 1;
+
+	[Signal] public delegate void DungeonGeneratedEventHandler();
+
+	[Signal] public delegate void DungeonCompletedEventHandler();
 	[Export] public Node3D Rooms {get;set;}
 	[Export] public int Length {get; private set;}
 	[Export] public Node3D Spawn {get;set;}
 	[Export] public int Seed { get; set; }
+	[Export] public bool Enabled { get; set; }
 	[Export] public bool GenerateButton
 	{
 		get => this._generateButton;
@@ -29,11 +34,13 @@ public partial class DungeonGenerate : Node3D
 
 	[Export]
 	public CharacterBody3D Enemy { get; set; }
+	public int TotalEnemies { get; set; }
 	private Enemy _enemy;
 	private bool _generateButton = false;
 	private List<Node3D> _rooms = new List<Node3D>();
+	private int _kills;
 	public override void _Ready(){
-		this.Generate();
+		Generate();
 	}
 	
 	private void _ClearDungeon()
@@ -65,10 +72,13 @@ public partial class DungeonGenerate : Node3D
 	private bool _CheckEnemy()
 	{
 		GD.Print("Checking for enemy");
+		if (this._enemy != null) return true; 
 		if (this.Enemy is Enemy)
 		{
 			GD.Print("Enemy valid");
+			
 			this._enemy = this.Enemy as Enemy;
+			this.Enemy.QueueFree();
 			return true;
 		}
 		return false;
@@ -131,7 +141,7 @@ public partial class DungeonGenerate : Node3D
 					GD.Print(rand);
 					if (rand == 1)
 					{
-						GD.Print("spawned enemy");
+						TotalEnemies++;
 						var enemy = _enemy.Duplicate() as Enemy;
 						enemy.Position = spawn.Position;
 						enemy.Visible = true;
@@ -139,8 +149,15 @@ public partial class DungeonGenerate : Node3D
 						room.AddChild(enemy);
 					}
 				}
+
+				
+				
 			}
+			
 		}
+
+		EmitSignal(SignalName.DungeonGenerated);
+		GD.Print("Total enemies ",TotalEnemies);
 	}
 
 	/*private void _ConnectRooms(Node3D room1, Node3D room2)
@@ -168,10 +185,20 @@ public partial class DungeonGenerate : Node3D
 	
 	public void Generate()
 	{
-		if (this._CheckRooms())
+		if (Enabled && this._CheckRooms())
 		{
 			this._ClearDungeon();
 			this._Generate();
 		}
 	}
+	
+	private void _on_enemy_died()
+	{
+		_kills++;
+		if(_kills== TotalEnemies)
+			EmitSignal(SignalName.DungeonCompleted);
+	}
 }
+
+
+

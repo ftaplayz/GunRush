@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace GunRush.Classes;
@@ -11,6 +12,7 @@ public partial class Player : Humanoid
 	public static int StateJumping = 2;
 	public static int StateCrouching = 3;
 	public static int StateFalling = 4;
+	public bool JustPaused = false;
 	private float _sensitivity = 0.5f;
 	private CustomCamera _camera;
 	private WeaponController _weapon;
@@ -24,17 +26,31 @@ public partial class Player : Humanoid
 	private float _oldCameraY;
 	private bool _scheduledStand = false;
 	private bool _crouching = false;
+	private Label _killed;
+	private Label _total;
+	private Global _global;
+	private Label _healthLabel;
+	private Label _ammo;
+	private Label _maxAmmo;
 	
 	public override void _Ready()
 	{
-		var global = this.GetNode<Global>("/root/Global");
+		this._global = this.GetNode<Global>("/root/Global");
 		//GD.Print(this.GetNode<Global>("/root/Global").Difficulty);
-		this._sensitivity = global.Sensitivity;
+		this._sensitivity = _global.Sensitivity;
 		this._camera = GetNode<CustomCamera>("CameraRoot");
 		this._weapon = _camera.GetNode<WeaponController>("Weapon");
 		this._raycastStand = GetNode<RayCast3D>("StandingRaycast");
 		this._standingCollision = GetNode<CollisionShape3D>("StandingCollision");
 		this._crouchingCollission = GetNode<CollisionShape3D>("CrouchingCollision");
+		this._killed = this.GetNode<Label>("KillsCounter/HBoxContainer/Killed");
+		this._total = this.GetNode<Label>("KillsCounter/HBoxContainer/Total");
+		this._healthLabel = this.GetNode<Label>("Health/MarginContainer/HBoxContainer/HealthLabel");
+		this._ammo = this.GetNode<Label>("Ammo/MarginContainer/HBoxContainer/Ammo");
+		this._maxAmmo = this.GetNode<Label>("Ammo/MarginContainer/HBoxContainer/TotalAmmo");
+		this._healthLabel.Text = this.Health+"";
+		this._ammo.Text = this._weapon.Magazine + "";
+		this._maxAmmo.Text = this._weapon.Ammo+"";
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
@@ -49,8 +65,13 @@ public partial class Player : Humanoid
 
 	public override void _Input(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("pause"))
-			GetTree().Quit();
+		if (Input.IsActionJustPressed("pause"))
+		{
+			if(!JustPaused)
+				this.GetNode<Pause>("pause").State(!GetTree().Paused);
+			JustPaused = false;
+		}
+		
 		if(Input.IsActionJustPressed("fire"))
 			this._weapon.Fire(true);
 		if(Input.IsActionJustReleased("fire"))
@@ -69,11 +90,7 @@ public partial class Player : Humanoid
 				else
 					this._scheduledStand = true;
 	}
-
-	public override void _Process(double delta)
-	{
-		
-	}
+	
 
 	public override void _PhysicsProcess(double delta)
 	{		
@@ -164,4 +181,61 @@ public partial class Player : Humanoid
 		shapeDisable.Disabled = true;
 		this._camera.Position = camPos;
 	}
+
+	public override void _ExitTree()
+	{
+		this.GetTree().Paused = false;
+	}
+
+	private void _on_enemy_died()
+	{
+		this._global.EnemyKills++;
+		this._killed.Text = this._global.EnemyKills+"";
+	}
+	
+	private void _on_dungeon_dungeon_generated()
+	{
+		var totalEnemies = this.Owner.GetNode<DungeonGenerate>("Dungeon").TotalEnemies;
+		this._total.Text = totalEnemies + "";
+		this._weapon.Ammo = totalEnemies * this._weapon.Weapon.MagazineSize/ (this._global.Difficulty + 1);
+		this._maxAmmo.Text = this._weapon.Ammo+"";
+
+	}
+
+	public override void TakeDamage(float damage)
+	{
+		base.TakeDamage(damage);
+		this._healthLabel.Text = this.Health+"";
+		if (this.Health <= 0)
+		{
+			var world = (World)this.Owner;
+			_global.GameOver = true;
+			world.LogRun();
+			world.QueueFree();
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+			GetTree().ChangeSceneToFile("res://ui/menu.tscn");
+		}
+	}
+	
+	private void _on_weapon_fired()
+	{
+		GD.Print("Fired");
+		this._ammo.Text = this._weapon.Magazine + "";
+	}
+
+
+	private void _on_weapon_reloaded()
+	{
+		this._ammo.Text = this._weapon.Magazine + "";
+		this._maxAmmo.Text = this._weapon.Ammo+"";
+	}
+
 }
+
+
+
+
+
+
+
+

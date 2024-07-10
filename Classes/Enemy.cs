@@ -6,11 +6,13 @@ namespace GunRush.Classes;
 
 public partial class Enemy : Humanoid
 {
+	[Signal]
+	public delegate void DiedEventHandler();
 	public Player TargetPlayer { get; set; }
 	public List<Node3D> Roams { get; set; } = new List<Node3D>();
 	private AnimationTree _animationTree;
 	public List<CollisionShape3D> Collisions = new List<CollisionShape3D>();
-	public int HitChance { get; set; } = 50;
+	public int HitChance { get; set; } = 10;
 	public WeaponController WeaponController { get; set; }
 	private Random _random = new Random();
 	private EnemyStateMachine _stateMachine;
@@ -22,6 +24,7 @@ public partial class Enemy : Humanoid
 		this.WeaponController.AutoReload = true;
 		this._animationTree = this.GetNode<AnimationTree>("AnimationTree");
 		this._GetCollisionShapes(this);
+		this.HitChance = (this.GetNode<Global>("/root/Global").Difficulty + 1) * this.HitChance;
 		this._stateMachine.TransitionTo(this._stateMachine.Idle);
 		//this._stateMachine.TransitionTo(this._stateMachine.Shooting);
 		
@@ -82,9 +85,17 @@ public partial class Enemy : Humanoid
 
 	private void _on_area_3d_damage_taken(double damage)
 	{
-		this.Health -= (float)damage;
+		this.TakeDamage((float)damage);
+	}
+
+	public void TakeDamage(float damage)
+	{
+		this.Health -= damage;
 		if(this.Health <= 0)
+		{
+			EmitSignal(SignalName.Died);
 			this._stateMachine.TransitionTo(this._stateMachine.Die);
+		}
 	}
 
 	public void Aggro(Player player)
@@ -95,7 +106,7 @@ public partial class Enemy : Humanoid
 
 	public void OutOfAmmo()
 	{
-		this._stateMachine.TransitionTo(this._stateMachine.Die);
+		this.TakeDamage(1000);
 	}
 
 }

@@ -9,6 +9,8 @@
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jilcd"]
 _data = {
+"Reload": ExtResource("3_27p8x"),
+"Shoot": ExtResource("2_dh5n0"),
 "m4_reload": ExtResource("3_27p8x"),
 "m4_shoot": ExtResource("2_dh5n0")
 }
@@ -38,6 +40,7 @@ material = SubResource("StandardMaterial3D_6xew2")
 size = Vector2(0.2, 0.2)
 
 [node name="Weapon" type="Node3D" groups=["weapon"]]
+process_mode = 1
 transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 script = ExtResource("1_2h82h")
 

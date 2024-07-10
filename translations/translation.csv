@@ -1,0 +1,48 @@
+﻿STRING KEY;en;pt_PT
+PLAY_BUTTON;Play;Jogar
+STATS_BUTTON;Stats;Estatísticas
+SETTINGS_BUTTON;Settings;Definições
+QUIT_BUTTON;Quit;Sair
+DIFFICULTY_TEXT;Difficulty;Dificuldade
+HARD_DIFFICULTY;Hard;Difícil
+NORMAL_DIFFICULTY;Normal;Normal
+EASY_DIFFICULTY;Easy;Fácil
+SEED_TEXT;Seed;Seed
+START_BUTTON;Start;Começar
+CLOSE_BUTTON;Close;Fechar
+GENERAL_TAB;General;Geral
+GRAPHICS_TAB;Graphics;Gráficos
+CONTROLS_TAB;Controls;Controlos
+CROSSHAIR_TAB;Crosshair;Mira
+CROSSHAIR_ACTIVE;Activate crosshair;Ativar mira
+CROSSHAIR_WIDTH;Crosshair width;Largura da mira
+CROSSHAIR_LENGTH;Crosshair length;Comprimento da mira
+CROSSHAIR_CENTER_OFFSET;Crosshair center offset;Ajuste da mira
+CROSSHAIR_COLOR;Crosshair color;Cor da mira
+CROSSHAIR_DOT_ACTIVE;Activate crosshair center dot;Ativar ponto central da mira
+CROSSHAIR_DOT_SIZE;Crosshair dot size;Tamanho do ponto central
+SENSITIVITY_TEXT;Sensitivity;Sensibilidade
+BACK_BUTTON;Back;Voltar
+RANDOM_TEXT;Random;Aleatório
+LANGUAGE_TEXT;Language;Linguagem
+FULLSCREEN_BUTTON;Fullscreen;Ecrã cheio
+LAST_TAB;Lastest;Recentes
+SEARCH_TAB;Search;Procurar
+TIME_TEXT;Time;Tempo
+PLAYER_TAB;Player;Jogador
+PLAYER_RUNS;Out of {0} attempts, you completed {1};Em {0} tentativas, concluiu {1}
+PLAYER_KILLS;Killed: {0};Matou: {0}
+PLAYER_DEATHS;Died: {0};Morreu: {0}
+PLAYER_SHORTEST;You achieved the shortest time ({0} seconds) with seed {1};Na semente {1}, alcançou o menor tempo ({0} segundos)
+PLAYER_LONGEST;Your longest time was ({0} seconds) with seed {1};Na semente {1}, alcançou o maior tempo ({0} segundos)
+DURATION_TEXT;Duration;Duração
+KILLS_TEXT;Kills;Matou
+WON_TEXT;Won;Ganhou
+YES_TEXT;Yes;Sim
+NO_TEXT;No;Não
+en;English;
+pt_PT;Português;
+RESUME_TEXT;Resume;Resumir
+GIVE_UP_TEXT;Give up;Desistir
+WARNING_TEXT;Warning;Aviso
+GIVE_UP_WARNING_TEXT;Giving up will count as a loss and death.;Desistir é o mesmo que perder e morrer.

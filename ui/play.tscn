@@ -1,0 +1,113 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2c0rctq6kqkw"]
+
+[ext_resource type="Script" path="res://ui/PlayMenu.cs" id="1_dejwa"]
+[ext_resource type="Script" path="res://ui/ReturnToMenu.cs" id="1_qbfdp"]
+
+[node name="play" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dejwa")
+
+[node name="LevelSettings" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelSettings"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -193.0
+offset_top = -95.0
+offset_right = -20.0
+offset_bottom = 95.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Seed" type="VBoxContainer" parent="LevelSettings/VBoxContainer"]
+layout_mode = 2
+
+[node name="SeedText" type="Label" parent="LevelSettings/VBoxContainer/Seed"]
+layout_mode = 2
+text = "SEED_TEXT"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelSettings/VBoxContainer/Seed"]
+layout_mode = 2
+
+[node name="SeedEdit" type="LineEdit" parent="LevelSettings/VBoxContainer/Seed/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "RANDOM_TEXT"
+max_length = 10
+expand_to_text_length = true
+
+[node name="Difficulties" type="VBoxContainer" parent="LevelSettings/VBoxContainer"]
+layout_mode = 2
+
+[node name="DifficultyText" type="Label" parent="LevelSettings/VBoxContainer/Difficulties"]
+layout_mode = 2
+text = "DIFFICULTY_TEXT"
+
+[node name="HardButton" type="Button" parent="LevelSettings/VBoxContainer/Difficulties"]
+layout_mode = 2
+text = "HARD_DIFFICULTY"
+
+[node name="NormalButton" type="Button" parent="LevelSettings/VBoxContainer/Difficulties"]
+layout_mode = 2
+text = "NORMAL_DIFFICULTY"
+
+[node name="EasyButton" type="Button" parent="LevelSettings/VBoxContainer/Difficulties"]
+layout_mode = 2
+text = "EASY_DIFFICULTY"
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = -15.5
+offset_right = 64.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "START_BUTTON"
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="BackButton" type="Button" parent="Control2"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 123.0
+grow_vertical = 0
+text = "BACK_BUTTON"
+script = ExtResource("1_qbfdp")
+
+[connection signal="text_submitted" from="LevelSettings/VBoxContainer/Seed/HBoxContainer/SeedEdit" to="." method="_SetSeed"]
+[connection signal="pressed" from="LevelSettings/VBoxContainer/Difficulties/HardButton" to="." method="_Hard"]
+[connection signal="pressed" from="LevelSettings/VBoxContainer/Difficulties/NormalButton" to="." method="_Normal"]
+[connection signal="pressed" from="LevelSettings/VBoxContainer/Difficulties/EasyButton" to="." method="_Easy"]
+[connection signal="pressed" from="StartButton" to="." method="_Play"]

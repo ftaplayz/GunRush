@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvmpevbb3gm3"]
+[gd_scene load_steps=10 format=3 uid="uid://cvmpevbb3gm3"]
 
 [ext_resource type="Script" path="res://Classes/Player.cs" id="1_iu34t"]
 [ext_resource type="Script" path="res://Classes/CustomCamera.cs" id="2_8yv4o"]
 [ext_resource type="Resource" uid="uid://bj3aghrxpian4" path="res://weapons/m4/m4.tres" id="3_3n1sj"]
 [ext_resource type="PackedScene" uid="uid://2m640fvers00" path="res://scene/weapon/weapon.tscn" id="3_j3vjc"]
 [ext_resource type="Script" path="res://Classes/Crosshair.cs" id="5_t1bb5"]
+[ext_resource type="PackedScene" uid="uid://c8yh6gpxfnx7e" path="res://ui/pause.tscn" id="6_th0t3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jdee6"]
 
@@ -13,7 +14,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ryxyu"]
 height = 1.0
 
-[node name="Player" type="CharacterBody3D" groups=["entity"]]
+[node name="Player" type="CharacterBody3D" groups=["entity", "player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 3
 collision_mask = 3
@@ -28,14 +29,18 @@ script = ExtResource("2_8yv4o")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 
-[node name="Weapon" parent="CameraRoot" node_paths=PackedStringArray("WeaponRaycast") instance=ExtResource("3_j3vjc")]
+[node name="Weapon" parent="CameraRoot" instance=ExtResource("3_j3vjc")]
+transform = Transform3D(-0.015, 0, -1.31134e-09, 0, 0.015, 0, 1.31134e-09, 0, -0.015, 0.444, -0.233, -0.265)
 Weapon = ExtResource("3_3n1sj")
-WeaponRaycast = NodePath("../AimRay")
+Magazine = 30
+Ammo = 120
 
 [node name="AimRay" type="RayCast3D" parent="CameraRoot"]
 target_position = Vector3(0, 0, -100)
 collision_mask = 2
 collide_with_areas = true
+debug_shape_custom_color = Color(0, 1, 0, 1)
+debug_shape_thickness = 1
 
 [node name="StandingCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_ybbpu")
@@ -88,3 +93,117 @@ width = 2.0
 [node name="Dot" type="Line2D" parent="Crosshair/CenterContainer"]
 points = PackedVector2Array(-1, 0, 1, 0)
 width = 2.0
+
+[node name="pause" parent="." instance=ExtResource("6_th0t3")]
+process_mode = 3
+visible = false
+
+[node name="KillsCounter" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="KillsCounter"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Killed" type="Label" parent="KillsCounter/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="Label2" type="Label" parent="KillsCounter/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "/"
+
+[node name="Total" type="Label" parent="KillsCounter/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "10"
+
+[node name="Health" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Health"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 55.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Health/MarginContainer"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="Health/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 40
+text = "999999
+"
+
+[node name="Ammo" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Ammo"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -55.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Ammo/MarginContainer"]
+layout_mode = 2
+
+[node name="Ammo" type="Label" parent="Ammo/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "60
+"
+
+[node name="Label2" type="Label" parent="Ammo/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "/"
+
+[node name="TotalAmmo" type="Label" parent="Ammo/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "60
+"
+
+[connection signal="Fired" from="CameraRoot/Weapon" to="." method="_on_weapon_fired"]
+[connection signal="Reloaded" from="CameraRoot/Weapon" to="." method="_on_weapon_reloaded"]

@@ -21,7 +21,7 @@ public partial class Humanoid : CharacterBody3D
 	[Export] public float Gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	[Export] public float FallStrength = 10;
 	
-	public void TakeDamage(float damage)
+	public virtual void TakeDamage(float damage)
 	{
 		this.Health -= damage;
 	}

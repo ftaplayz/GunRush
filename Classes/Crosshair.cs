@@ -15,6 +15,11 @@ public partial class Crosshair : CenterContainer
 		this._lines.Add("right", this.GetNode<Line2D>("Right"));
 		this._lines.Add("dot", this.GetNode<Line2D>("Dot"));
 		this._global = this.GetNode<Global>("/root/Global");
+		this.Draw();
+	}
+
+	public void Draw()
+	{
 		this.Toggle(this._global.Crosshair);
 		this.Dot(this._global.CrosshairDot);
 	}
@@ -26,8 +31,8 @@ public partial class Crosshair : CenterContainer
 		}
 		this._lines["dot"].Visible = true;
 		var half = this._global.CrosshairDotSize/2;
-		this._lines["dot"].Points[0].X = -half;
-		this._lines["dot"].Points[1].X = half;
+		this._lines["dot"].SetPointPosition(0, new Vector2(-half, 0));
+		this._lines["dot"].SetPointPosition(1, new Vector2(half, 0));
 		this._lines["dot"].Width = this._global.CrosshairDotSize;
 		this._lines["dot"].DefaultColor = this._global.CrosshairColor;
 	}

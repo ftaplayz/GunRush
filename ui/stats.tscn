@@ -1,0 +1,159 @@
+[gd_scene load_steps=5 format=3 uid="uid://clhomvgrsftya"]
+
+[ext_resource type="Script" path="res://ui/StatsLastestPopulate.cs" id="1_34yxd"]
+[ext_resource type="Script" path="res://ui/PlayerStats.cs" id="2_x5ui5"]
+[ext_resource type="Script" path="res://Classes/LabelFormat.cs" id="3_xv4fs"]
+[ext_resource type="Script" path="res://ui/ReturnToMenu.cs" id="4_ltvon"]
+
+[node name="stats" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tabs_rearrange_group = 0
+
+[node name="LAST_TAB" type="TabBar" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/LAST_TAB"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "SEED_TEXT"
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "DIFFICULTY_TEXT"
+
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "DURATION_TEXT"
+
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "KILLS_TEXT"
+
+[node name="Label6" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "WON_TEXT"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer2" type="GridContainer" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 5
+script = ExtResource("1_34yxd")
+
+[node name="ExampleLabel" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/ScrollContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "asdasd"
+
+[node name="ExampleLabel2" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/ScrollContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "asdasd"
+
+[node name="ExampleLabel3" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/ScrollContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "asdasd"
+
+[node name="ExampleLabel4" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/ScrollContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "asdasd"
+
+[node name="ExampleLabel5" type="Label" parent="VBoxContainer/TabContainer/LAST_TAB/MarginContainer/VBoxContainer/ScrollContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "asdasd"
+
+[node name="PLAYER_TAB" type="TabBar" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/PLAYER_TAB"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/PLAYER_TAB/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+script = ExtResource("2_x5ui5")
+
+[node name="RunsLabel" type="Label" parent="VBoxContainer/TabContainer/PLAYER_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PLAYER_RUNS"
+script = ExtResource("3_xv4fs")
+
+[node name="KillsLabel" type="Label" parent="VBoxContainer/TabContainer/PLAYER_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PLAYER_KILLS"
+script = ExtResource("3_xv4fs")
+
+[node name="DeathsLabel" type="Label" parent="VBoxContainer/TabContainer/PLAYER_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PLAYER_DEATHS"
+script = ExtResource("3_xv4fs")
+
+[node name="LongestLabel" type="Label" parent="VBoxContainer/TabContainer/PLAYER_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PLAYER_LONGEST"
+script = ExtResource("3_xv4fs")
+
+[node name="ShortestLabel" type="Label" parent="VBoxContainer/TabContainer/PLAYER_TAB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PLAYER_SHORTEST"
+script = ExtResource("3_xv4fs")
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "CLOSE_BUTTON"
+script = ExtResource("4_ltvon")
